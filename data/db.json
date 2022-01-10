@@ -24,51 +24,282 @@
   "customers": [
     {
       "id": 1,
-      "customer_name": "Barbie",
-      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Barbie_Logo.svg/1200px-Barbie_Logo.svg.png",
-      "new_orders": 0
-    },
-    {
-      "id": 2,
-      "customer_name": "Barbie",
-      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Barbie_Logo.svg/1200px-Barbie_Logo.svg.png",
+      "customer_name": "guri ha yeshen",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/guri%20ha%20yeshen.png?alt=media&token=ef55fc8a-0012-462c-a4f1-3b304e517eec",
       "new_orders": 0
     },
     {
       "id": 3,
+      "customer_name": "Amit the liar",
+      "logo": "https://robohash.org/sequiminusinventore.png?size=50x50&set=set1",
+      "new_orders": 39
+    },
+    {
+      "id": 6,
+      "customer_name": "RitPit",
+      "logo": "https://robohash.org/velitautemenim.png?size=50x50&set=set1",
+      "new_orders": 44
+    },
+    {
+      "id": 7,
+      "customer_name": "new name",
+      "logo": "https://robohash.org/utadipisciest.png?size=50x50&set=set1",
+      "new_orders": 47
+    },
+    {
+      "id": 8,
+      "customer_name": "Rita Pita lala",
+      "logo": "https://robohash.org/necessitatibusquamlaboriosam.png?size=50x50&set=set1",
+      "new_orders": 0
+    },
+    {
+      "id": 10,
+      "customer_name": "Dynazz",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/Dynazz.png?alt=media&token=fc384c77-fd45-4c94-966d-25e07b2ca9f9",
+      "new_orders": 0
+    },
+    {
+      "id": 11,
+      "customer_name": "Fliptune",
+      "logo": "https://robohash.org/voluptatumteneturveritatis.png?size=50x50&set=set1",
+      "new_orders": 80
+    },
+    {
+      "id": 12,
+      "customer_name": "Skiptube",
+      "logo": "https://robohash.org/ettemporaquibusdam.png?size=50x50&set=set1",
+      "new_orders": 78
+    },
+    {
+      "id": 13,
+      "customer_name": "Meezzy",
+      "logo": "https://robohash.org/iustolaudantiumfuga.png?size=50x50&set=set1",
+      "new_orders": 10
+    },
+    {
+      "id": 14,
+      "customer_name": "Jabberstorm",
+      "logo": "https://robohash.org/quaeratsintexpedita.png?size=50x50&set=set1",
+      "new_orders": 32
+    },
+    {
+      "id": 15,
+      "customer_name": "Tagtune",
+      "logo": "https://robohash.org/aspernaturmolestiaeaccusamus.png?size=50x50&set=set1",
+      "new_orders": 12
+    },
+    {
+      "id": 16,
+      "customer_name": "Livetube",
+      "logo": "https://robohash.org/eosconsecteturalias.png?size=50x50&set=set1",
+      "new_orders": 36
+    },
+    {
+      "id": 17,
+      "customer_name": "Shuffletag",
+      "logo": "https://robohash.org/maximeremnon.png?size=50x50&set=set1",
+      "new_orders": 90
+    },
+    {
+      "id": 18,
+      "customer_name": "Rhyzio",
+      "logo": "https://robohash.org/omnisutquaerat.png?size=50x50&set=set1",
+      "new_orders": 8
+    },
+    {
+      "id": 19,
+      "customer_name": "Tagchat",
+      "logo": "https://robohash.org/doloruminciduntreprehenderit.png?size=50x50&set=set1",
+      "new_orders": 6
+    },
+    {
+      "id": 20,
+      "customer_name": "Leexo",
+      "logo": "https://robohash.org/nequecumofficia.png?size=50x50&set=set1",
+      "new_orders": 31
+    },
+    {
+      "id": 21,
+      "customer_name": "Yamia",
+      "logo": "https://robohash.org/suntdoloressequi.png?size=50x50&set=set1",
+      "new_orders": 83
+    },
+    {
+      "id": 22,
+      "customer_name": "Buzzster",
+      "logo": "https://robohash.org/saepeofficiisvoluptate.png?size=50x50&set=set1",
+      "new_orders": 92
+    },
+    {
+      "id": 23,
+      "customer_name": "Shuffledrive",
+      "logo": "https://robohash.org/veniamdolorculpa.png?size=50x50&set=set1",
+      "new_orders": 53
+    },
+    {
+      "id": 24,
+      "customer_name": "Chatterbridge",
+      "logo": "https://robohash.org/beataeodioaut.png?size=50x50&set=set1",
+      "new_orders": 20
+    },
+    {
+      "id": 25,
+      "customer_name": "Gigabox",
+      "logo": "https://robohash.org/nihilmollitiarepellat.png?size=50x50&set=set1",
+      "new_orders": 23
+    },
+    {
+      "id": 26,
+      "customer_name": "Livefish",
+      "logo": "https://robohash.org/voluptaslaudantiumcum.png?size=50x50&set=set1",
+      "new_orders": 68
+    },
+    {
+      "id": 27,
+      "customer_name": "Layo",
+      "logo": "https://robohash.org/asperioressintvitae.png?size=50x50&set=set1",
+      "new_orders": 75
+    },
+    {
+      "id": 28,
+      "customer_name": "Pixope",
+      "logo": "https://robohash.org/repudiandaeillovoluptatem.png?size=50x50&set=set1",
+      "new_orders": 90
+    },
+    {
+      "id": 29,
+      "customer_name": "Feedmix",
+      "logo": "https://robohash.org/aspernaturetmolestias.png?size=50x50&set=set1",
+      "new_orders": 53
+    },
+    {
+      "id": 30,
+      "customer_name": "Jamia",
+      "logo": "https://robohash.org/nonestexcepturi.png?size=50x50&set=set1",
+      "new_orders": 86
+    },
+    {
+      "id": 31,
+      "customer_name": "Azrieli",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Azrieli_LOGO.jpg",
+      "new_orders": 21
+    },
+    {
+      "id": 32,
       "customer_name": "Barbie",
       "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Barbie_Logo.svg/1200px-Barbie_Logo.svg.png",
       "new_orders": 0
     },
     {
-      "id": 4,
+      "id": 33,
+      "customer_name": "JFrog",
+      "logo": "https://media.jfrog.com/wp-content/uploads/2018/06/20132021/JFROG.png",
+      "new_orders": 0
+    },
+    {
+      "id": 34,
       "customer_name": "GODIVA",
       "logo": "https://d3m9l0v76dty0.cloudfront.net/system/photos/7391905/large/c09e570b05c55eda6d2265a404d162af.jpg",
       "new_orders": 14
     },
     {
-      "id": 5,
+      "id": 35,
       "customer_name": "Corgi",
-      "logo": "https://www.pressnewsdaily.com/wp-content/uploads/2021/09/corgi-dog-750x430.jpg",
+      "logo": "https://www.akc.org/wp-content/uploads/2017/11/Pembroke-Welsh-Corgi-standing-outdoors-in-the-fall.jpg",
       "new_orders": 5
     },
     {
-      "customer_name": "Shem Aher",
-      "logo": "https://upload.wikimedia.org/wikipedia/he/thumb/5/5f/eee.png",
-      "new_orders": 20,
-      "id": 6
+      "id": 36,
+      "customer_name": "penguin",
+      "logo": "https://i.natgeofe.com/n/4bf47147-ce80-49c6-98ae-52f63349045f/67655_3x4.jpg",
+      "new_orders": 20
+    },
+    {
+      "id": 37,
+      "customer_name": "This is NEW!",
+      "logo": "https://robohash.org/utadipisciest.png?size=50x50&set=set1",
+      "new_orders": 0
+    },
+    {
+      "id": 38,
+      "customer_name": "I DID IT",
+      "logo": "https://robohash.org/utadipisciest.png?size=50x50&set=set1",
+      "new_orders": 0
+    },
+    {
+      "id": 44,
+      "customer_name": "please",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/please.png?alt=media&token=73e6c997-c393-4c90-a7e3-6d8b9cf3da5e",
+      "new_orders": 0
+    },
+    {
+      "id": 45,
+      "customer_name": "red little man",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/red%20little%20man.png?alt=media&token=edc8dc88-c8a1-4b08-bc3b-90c5559eb1dd",
+      "new_orders": 0
+    },
+    {
+      "id": 46,
+      "customer_name": "Gafni Family",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/Family.png?alt=media&token=e6e432d8-43b7-4168-834a-d0befe48d8af",
+      "new_orders": 0
+    },
+    {
+      "id": 47,
+      "customer_name": "Shalom shalom",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/Shalom%20shalom.png?alt=media&token=8dfcbe8f-7dd4-45da-bf1f-68d35bf31031",
+      "new_orders": 0
+    },
+    {
+      "id": 48,
+      "customer_name": "Hallo",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/Hallo.png?alt=media&token=4d73ceea-aa9f-4508-958d-535b94bfb453",
+      "new_orders": 0
+    },
+    {
+      "id": 49,
+      "customer_name": "try this thing",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/try%20this.png?alt=media&token=97d9d654-72d2-4660-a058-04a3f9e061f5",
+      "new_orders": 0
+    },
+    {
+      "id": 50,
+      "customer_name": "new Customer",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/new%20Customer.png?alt=media&token=332bcc2b-699b-4ff7-a310-865bd4ba800c",
+      "new_orders": 0
+    },
+    {
+      "id": 51,
+      "customer_name": "Flower",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/Flower.png?alt=media&token=a9b80446-b73e-4bf3-a458-cc7c90f276f8",
+      "new_orders": 0
+    },
+    {
+      "id": 52,
+      "customer_name": "birdy",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/birdy.png?alt=media&token=bf77c4fc-f7d7-481f-afff-f9a9a73d8a4b",
+      "new_orders": 0
+    },
+    {
+      "id": 53,
+      "customer_name": "עזריאלי",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/%D7%92%D7%A4%D7%A0%D7%99.png?alt=media&token=0ab769d9-dddd-422e-bc8e-742cc3113e44",
+      "new_orders": 0
+    },
+    {
+      "id": 54,
+      "customer_name": "Doggy",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/Doggy.png?alt=media&token=54d10cfd-fba6-4820-944e-ecd1617e58be",
+      "new_orders": 0
+    },
+    {
+      "id": 55,
+      "customer_name": "ריטה",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/%D7%A8%D7%99%D7%98%D7%94.png?alt=media&token=13c751e5-4245-4a9f-b448-5a19c42e8075",
+      "new_orders": 0
     }
   ],
   "orders": [
-    {
-      "id": 1,
-      "employeeName": "Teresa Marguerite",
-      "company": "Fivebridge",
-      "status": "shipped",
-      "creationDate": "26/06/2020",
-      "customer": "620-08-0472",
-      "img": "https://robohash.org/cumdoloremquelaudantium.png?size=100x120&set=set1"
-    },
     {
       "id": 4,
       "employeeName": "Kevina Jedrzejewsky",
@@ -113,15 +344,6 @@
       "creationDate": "23/11/2021",
       "customer": "347-32-8498",
       "img": "https://robohash.org/quisquameoseum.png?size=100x120&set=set1"
-    },
-    {
-      "id": 9,
-      "employeeName": "Doralia Frankcomb",
-      "company": "Pixope",
-      "status": "new",
-      "creationDate": "02/06/2018",
-      "customer": "724-65-7259",
-      "img": "https://robohash.org/sedautemet.png?size=100x120&set=set1"
     },
     {
       "id": 10,
@@ -941,6 +1163,28 @@
       "creationDate": "22/03/2021",
       "customer": "807-42-5625",
       "img": "https://robohash.org/aliasuthic.png?size=100x120&set=set1"
+    },
+    {
+      "id": 101,
+      "img": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/undefined.png?alt=media&token=16cce0f8-345c-4771-8842-82076150c3a7"
+    },
+    {
+      "id": 102,
+      "img": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/undefined.png?alt=media&token=399f70e5-961d-4dc3-a9c9-9ddda910577f"
+    },
+    {
+      "id": 103,
+      "employeeName": "rita",
+      "company": "pita",
+      "customer": "123456",
+      "img": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/123456.png?alt=media&token=648df616-f1cb-442f-8310-db05db69f4d5"
+    },
+    {
+      "id": 104,
+      "employeeName": "ewrwer",
+      "company": "werwer",
+      "customer": "werwer",
+      "img": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/werwer.png?alt=media&token=d0ecd9a9-2fdd-4534-a072-db8558f0958f"
     }
   ]
 }

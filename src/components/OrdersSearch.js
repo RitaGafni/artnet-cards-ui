@@ -4,6 +4,8 @@ import { BsSearch } from 'react-icons/bs';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../SearchRedux';
+import Fab from '@mui/material/Fab';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 
 export default function OrdersSearch(props) {
   const basicSearch = useSelector((state) => state.basicSearch);
@@ -30,6 +32,9 @@ export default function OrdersSearch(props) {
 
   return (
     <div>
+      <Fab color='primary' aria-label='SearchRounded'>
+        <SearchRoundedIcon />
+      </Fab>
       <div>
         <Tabs
           defaultActiveKey='basicSearch'

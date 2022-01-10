@@ -31,11 +31,13 @@ export default function OrderWizard(props) {
     customer: props.line.customer,
     img: props.line.img,
   });
+
   const [dropDownButtonName, setDropDownButtonName] = useState(
     editedOrder.status
   );
 
   const status = ['new', 'approved', 'printed', 'shipped'];
+
   const [statusFilter, setStatusFilter] = useState({
     new: true,
     approved: false,
@@ -80,7 +82,7 @@ export default function OrderWizard(props) {
   return (
     <div>
       <Button variant='blank' onClick={handleShow} className='mb-3'>
-        {props.newOrder ? <Button>New Order</Button> : <BsPen size='1.5em' />}{' '}
+        {props.newOrder ? <Button>New Order</Button> : <BsPen size='1em' />}{' '}
       </Button>
       <Modal
         show={show}

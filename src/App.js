@@ -1,16 +1,24 @@
 import UserTable from './components/tables';
-import Customers from './Pages/Customers';
+import Customers from './components/Customers';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import LoginForm from './Pages/Login/LoginForm';
-import SignupForm from './Pages/Login/SignupForm';
+import LoginForm from './components/LoginForm';
+import SignupForm from './components/SignupForm';
 import { AuthProvider } from './context/AuthContext';
-import Dashboard from './Pages/Dashboard';
-import ForgotPassword from './Pages/ForgotPassword';
+import Dashboard from './components/Dashboard';
+import ForgotPassword from './components/ForgotPassword';
 import PrivetRoute from './components/PrivetRoute';
-import updateProfile from './Pages/updateProfile';
-import Orders from './Pages/Orders';
+import updateProfile from './components/updateProfile';
+import Orders from './components/Orders';
+import OrdersTable from './components/OrdersDataTable';
 import { useSelector } from 'react-redux';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: { main: '#ffc107' },
+  },
+});
 
 function App() {
   const state = useSelector((state) => state);
@@ -18,23 +26,26 @@ function App() {
   console.log(state);
 
   return (
-    <div className='App'>
-      <Router>
-        <AuthProvider>
-          <div className='App'>
-            <Switch>
-              <PrivetRoute exact path='/' component={Dashboard} />
-              <Route path='/login' component={LoginForm} />
-              <Route path='/signup' component={SignupForm} />
-              <Route path='/forgot-password' component={ForgotPassword} />
-              <PrivetRoute path='/update-profile' component={updateProfile} />
-              <Route path='/orders' component={Orders} />
-              <Route path='/customers' component={Customers} />
-            </Switch>
-          </div>
-        </AuthProvider>
-      </Router>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className='App'>
+        <Router>
+          <AuthProvider>
+            <div className='App'>
+              <Switch>
+                <PrivetRoute exact path='/' component={Dashboard} />
+                <Route path='/login' component={LoginForm} />
+                <Route path='/signup' component={SignupForm} />
+                <Route path='/forgot-password' component={ForgotPassword} />
+                <PrivetRoute path='/update-profile' component={updateProfile} />
+                <Route path='/orders' component={Orders} />
+                <Route path='/customers' component={Customers} />
+                <Route path='/data' component={OrdersTable} />
+              </Switch>
+            </div>
+          </AuthProvider>
+        </Router>
+      </div>
+    </ThemeProvider>
   );
 }
 

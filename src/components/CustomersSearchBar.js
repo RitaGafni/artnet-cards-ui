@@ -1,13 +1,18 @@
+import { Container, TextField, Box } from '@mui/material';
 import React from 'react';
-import { InputGroup, FormControl } from 'react-bootstrap';
 
-export default function CustomersSearchBar() {
+export default function CustomersSearchBar(props) {
   return (
     <div>
-      <InputGroup className='mb-3 mt-3'>
-        <InputGroup.Text>Search Customer </InputGroup.Text>
-        <FormControl aria-label='Search' placeholder='Type here' />
-      </InputGroup>
+      <Container sx={{ textAlign: 'left' }}>
+        <TextField
+          id='search customers'
+          label='Search Customers'
+          variant='outlined'
+          margin='normal'
+          onChange={(e) => props.setSearchQ(e.target.value)}
+        />
+      </Container>
     </div>
   );
 }

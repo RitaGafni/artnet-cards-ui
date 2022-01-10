@@ -30,7 +30,7 @@ export default function OrderDelete(props) {
     <div>
       {' '}
       <Button variant='blank' onClick={handleShow}>
-        <BsTrash size='1.5em' />{' '}
+        <BsTrash size='1em' />{' '}
       </Button>
       <Modal
         show={show}

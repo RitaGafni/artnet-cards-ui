@@ -5,8 +5,8 @@ import {
   signInWithEmailAndPassword,
 } from '@firebase/auth';
 import React, { useContext, useState, useEffect } from 'react';
-import { auth } from '../firebase';
 import axios from 'axios';
+import { auth } from '../firebase'
 
 const AuthContext = React.createContext();
 
