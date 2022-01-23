@@ -1,11 +1,22 @@
-import AdvancedSearch from './AdvancedSearch';
+import React, { useEffect, useState } from 'react';
+import OrdersAdvancedSearch from './OrdersAdvancedSearch';
 import { FormControl, Tab, Tabs, InputGroup } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../SearchRedux';
-import Fab from '@mui/material/Fab';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import {
+  Container,
+  TextField,
+  Box,
+  Button,
+  Stack,
+  Grid,
+  Fab,
+} from '@mui/material';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+
+import Grow from '@mui/material/Grow';
 
 export default function OrdersSearch(props) {
   const basicSearch = useSelector((state) => state.basicSearch);
@@ -30,11 +41,14 @@ export default function OrdersSearch(props) {
     }
   }
 
+  const [checked, setChecked] = useState(false);
+
+  const handleChangeAdvancedMenu = () => {
+    setChecked((prev) => !prev);
+  };
+
   return (
     <div>
-      <Fab color='primary' aria-label='SearchRounded'>
-        <SearchRoundedIcon />
-      </Fab>
       <div>
         <Tabs
           defaultActiveKey='basicSearch'
@@ -51,13 +65,6 @@ export default function OrdersSearch(props) {
                 />{' '}
                 Search
               </InputGroup.Text>
-              <FormControl
-                type='text'
-                value={basicSearch}
-                onChange={(e) => updateBasicSearchQ(e.target.value)}
-                placeholder='type here'
-                aria-describedby='BasicSearch'
-              />
             </InputGroup>
           </Tab>
           <Tab
@@ -65,12 +72,60 @@ export default function OrdersSearch(props) {
             title='Advanced Search'
             //onSelect={changeSearchType((e) => e.target.eventKey)}
           >
-            <AdvancedSearch
+            <OrdersAdvancedSearch
               onChange={(e) => updateAdvSearchQ(e.target.value)}
             />
           </Tab>
         </Tabs>
       </div>
+      <Container>
+        <Stack direction='row' spacing={2}>
+          <Box
+            sx={{
+              width: 400,
+              maxWidth: '100%',
+            }}
+          >
+            <TextField
+              fullWidth
+              size='small'
+              id='adv search'
+              label='Search Orders'
+              variant='outlined'
+              margin='normal'
+              value={basicSearch}
+              onChange={(e) => updateBasicSearchQ(e.target.value)}
+            />
+          </Box>
+          <Grid alignItems='center'>
+            <Fab
+              onClick={handleChangeAdvancedMenu}
+              variant='extended'
+              color='primary'
+            >
+              <ManageSearchIcon sx={{ mr: 1 }} />
+              Advanced Search
+            </Fab>
+          </Grid>
+        </Stack>
+        {checked && (
+          <Box sx={{ height: 80 }}>
+            <Box sx={{ display: 'flex' }}>
+              <Grow in={checked}>
+                <TextField
+                  size='small'
+                  id='advanced search '
+                  label='Advanced Search '
+                  variant='outlined'
+                  margin='normal'
+                  value={basicSearch}
+                  onChange={(e) => updateBasicSearchQ(e.target.value)}
+                />
+              </Grow>
+            </Box>
+          </Box>
+        )}
+      </Container>
     </div>
   );
 }

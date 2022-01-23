@@ -1,16 +1,13 @@
-import React from 'react';
-import { DataGrid, GridRow } from '@mui/x-data-grid';
+import React, { useState } from 'react';
+import { DataGrid } from '@mui/x-data-grid';
 import { Box } from '@mui/material';
 import { makeStyles, createStyles } from '@mui/styles';
 import clsx from 'clsx';
-import { GridToolbar } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { GridActionsCellItem, useGridApiRef } from '@mui/x-data-grid-pro';
+
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import EditIcon from '@mui/icons-material/Edit';
+import OrdersWizard from './OrdersWizard';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -29,6 +26,10 @@ const useStyles = makeStyles((theme) =>
 export default function OrdersTable(props) {
   const ordersData = props.ordersData;
   console.log(ordersData);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [orderToEdit, setOrderToEdit] = useState();
+  const [deleteVer, setDeleteVer] = useState(false);
+  const [orderToDelete, setOrderToDelete] = useState('');
 
   const classes = useStyles();
 
@@ -54,7 +55,7 @@ export default function OrdersTable(props) {
       width: 160,
     },
     {
-      field: 'customer',
+      field: 'TZ',
       headerName: 'Customer Id',
       type: 'number',
       width: 120,
@@ -80,7 +81,7 @@ export default function OrdersTable(props) {
               color='primary'
               aria-label='delete customer'
               component='span'
-              onClick={() => handleDelete(row.id)}
+              onClick={() => handleDelete(row)}
             >
               <DeleteIcon />
             </IconButton>
@@ -90,21 +91,29 @@ export default function OrdersTable(props) {
     },
   ];
 
-  function handleEdit(id) {
-    console.log('handle edit order', id);
+  function handleEdit(order) {
+    console.log('handle edit order', order);
+    setOrderToEdit(order);
+    setOpenEdit(true);
   }
 
-  function handleDelete(id) {
-    console.log('handle delete order', id);
+  function handleDelete(order) {
+    console.log('handle delete order', order);
+    setOrderToDelete(order);
+    setDeleteVer(true);
   }
-
-  const handleClick = (event) => {
-    console.log('click');
-    console.log(event);
-  };
 
   return (
     <div>
+      <OrdersWizard
+        selectedOrder={orderToEdit}
+        orderToDelete={orderToDelete}
+        editMode={true}
+        setOpenEdit={(change) => setOpenEdit(change)}
+        openEdit={openEdit}
+        setDeleteVer={(change) => setDeleteVer(change)}
+        deleteVer={deleteVer}
+      />
       <Box
         style={{ height: 600, width: '100%' }}
         sx={{
@@ -132,11 +141,12 @@ export default function OrdersTable(props) {
         }}
       >
         <DataGrid
+          checkboxSelection
+          disableSelectionOnClick
           rows={ordersData}
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[20]}
-          checkboxSelection
           className={classes.root}
         />
       </Box>

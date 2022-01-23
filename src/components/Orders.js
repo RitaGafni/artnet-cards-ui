@@ -1,42 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Button, Col, Form, Row } from 'react-bootstrap';
-import OrdersTable from '../components/OrdersTable';
 import OrdersDataTable from '../components/OrdersDataTable';
-import NavBar from '../components/NavBar';
 import OrdersSearch from '../components/OrdersSearch';
 import { useSelector } from 'react-redux';
 import OrdersDatePicker from '../components/OrdersDatePicker';
 import OrdersWizard from '../components/OrdersWizard';
 import OrdersStatusCheckbox from './OrdersStatusCheckbox';
-import OrdersNewOrder from './OrdersNewOrder';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
+import { Box, Container, Stack, IconButton } from '@mui/material/';
+import { useAuth } from '../context/AuthContext';
+import { fetchOrdersList } from '../Services/OrdersServices';
 
-import { Grid, Box, Container, Stack, IconButton } from '@mui/material/';
-
-export default function Orders() {
+export default function Orders(props) {
   const [ordersData, setOrdersData] = useState({});
   const [openEdit, setOpenEdit] = useState(false);
-
+  const { currentUserRole } = useAuth();
   const basicQ = useSelector((state) => state.basicSearch);
   const AdvQ = useSelector((state) => state.advSearchQ);
   const AdvCat = useSelector((state) => state.advSearchCat);
-
-  useEffect(() => {
-    async function fetchOrdersList() {
-      const { data } = await axios('http://localhost:5000/orders');
-      setOrdersData(data);
-      console.log(data);
-    }
-    fetchOrdersList();
-  }, [setOrdersData]);
-
   const [statusFilter, setStatusFilter] = useState({
     new: true,
     approved: false,
     printed: false,
     shipped: false,
   });
+
+  useEffect(() => {
+    async function fetchOrders() {
+      const { data } = await fetchOrdersList();
+      setOrdersData(data);
+      console.log(data);
+    }
+    fetchOrders();
+  }, [setOrdersData]);
 
   function handleStatusChange(status) {
     setStatusFilter((prevStatusFilter) => {
@@ -47,11 +43,14 @@ export default function Orders() {
 
   function filterData(rows) {
     if (rows[0]) {
-      // filter by status
-      const newData = rows.filter((row) =>
-        Object.keys(statusFilter).some(
-          (status) => statusFilter[status] && row.status === status
-        )
+      // filter by status and custumer id
+      const newData = rows.filter(
+        (row) =>
+          currentUserRole !== 'admin' &&
+          (row.customerId === props.customerId || props.isAdmin) &&
+          Object.keys(statusFilter).some(
+            (status) => statusFilter[status] && row.status === status
+          )
       );
       if (basicQ) {
         return search(newData);
@@ -93,38 +92,40 @@ export default function Orders() {
 
   return (
     <div>
-      <NavBar />
-      <Row>
-        <Col>
-          <IconButton
-            size='large'
-            color='primary'
-            aria-label='new order'
-            component='span'
-            onClick={() => setOpenEdit(true)}
-          >
-            <AddCircleIcon fontSize='large' />
-          </IconButton>
-          <OrdersWizard
-            selectedOrder={{}}
-            editMode={false}
-            setOpenEdit={(change) => setOpenEdit(change)}
-            openEdit={openEdit}
-          />
-        </Col>
-        <Col></Col>
-      </Row>
-      <Container sx={{ '& > :not(style)': { m: 1 } }}>
-        <Stack direction='row' spacing={1}>
-          <OrdersSearch />
-          <OrdersStatusCheckbox
-            handleStatusChange={(status) => handleStatusChange(status)}
-          />
-        </Stack>
+      <Box display='flex'>
+        <IconButton
+          size='large'
+          color='primary'
+          aria-label='new order'
+          onClick={() => setOpenEdit(true)}
+        >
+          <AddCircleIcon fontSize='large' />
+        </IconButton>
 
-        <OrdersDatePicker />
-      </Container>
+        <IconButton color='primary' aria-label='Search orders' size='large'>
+          <SearchTwoToneIcon />
+        </IconButton>
+        <Container sx={{ '& > :not(style)': { m: 1 } }}>
+          <Stack direction='row' spacing={1}>
+            <OrdersStatusCheckbox
+              handleStatusChange={(status) => handleStatusChange(status)}
+            />
+          </Stack>
+        </Container>
+        <Container>
+          {' '}
+          <OrdersDatePicker />
+        </Container>
+      </Box>
 
+      <OrdersWizard
+        selectedOrder={{}}
+        editMode={false}
+        setOpenEdit={(change) => setOpenEdit(change)}
+        openEdit={openEdit}
+      />
+
+      <OrdersSearch />
       <div>
         {ordersData && ordersData[0] && (
           <OrdersDataTable ordersData={filterData(ordersData)} />

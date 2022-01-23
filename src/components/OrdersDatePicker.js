@@ -1,7 +1,7 @@
+import { Box } from '@mui/material';
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Row, Col } from 'react-bootstrap';
 
 export default function OrdersDatePicker() {
   const [startDate, setStartDate] = useState();
@@ -12,8 +12,7 @@ export default function OrdersDatePicker() {
   console.log(date);
   return (
     <div>
-      <Row>
-        <Col>
+      <Box>
           <DatePicker
             selected={startDate}
             onChange={(date) => setStartDate(date)}
@@ -26,8 +25,7 @@ export default function OrdersDatePicker() {
             showYearDropdown
             dropdownMode='select'
           />
-        </Col>
-        <Col>
+      
           <DatePicker
             selected={endDate}
             onChange={(date) => setEndDate(date)}
@@ -41,8 +39,8 @@ export default function OrdersDatePicker() {
             showYearDropdown
             dropdownMode='select'
           />
-        </Col>
-      </Row>
+          </Box>
+      
     </div>
   );
 }

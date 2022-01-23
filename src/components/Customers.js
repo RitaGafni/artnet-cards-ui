@@ -1,23 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import NavBar from './NavBar';
 import CustomersSearchBar from './CustomersSearchBar';
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import {
-  Button,
-  Grid,
-  Paper,
-  Container,
-  Badge,
-  Stack,
-  IconButton,
-  Box,
-} from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
+import { Grid, Container, IconButton, Box } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CustomersWizard from './CustomersWizard';
+import CustomerItem from './CustomerItem';
+import { makeStyles } from '@mui/styles';
+import SearchIcon from '@mui/icons-material/Search';
+import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 
 function Customers(props) {
   const [openEdit, setOpenEdit] = useState(false);
@@ -67,75 +57,44 @@ function Customers(props) {
 
   return (
     <div>
-      <NavBar />
-      <CustomersWizard
-        selectedCustomer={selectedCustomer}
-        setOpenEdit={(change) => setOpenEdit(change)}
-        openEdit={openEdit}
-        editMode={editMode}
-      />
-      <CustomersSearchBar setSearchQ={(q) => setSearchQ(q)} />
-      <IconButton
-        color='primary'
-        aria-label='edit customer'
-        component='span'
-        onClick={handleAddCustomer}
-      >
-        <AddCircleIcon />
-      </IconButton>
-      <Container className='mt-4'>
-        <Grid container spacing={3}>
-          {customers &&
-            customers[0] &&
-            filterCustomersData(customers).map((selectedCustomer) => (
-              <Grid item id={selectedCustomer.id}>
-                <Badge
-                  badgeContent={selectedCustomer.new_orders}
-                  color='primary'
-                  sx={{
-                    '& .MuiBadge-badge': {
-                      fontSize: 18,
-                      height: 30,
-                    },
-                  }}
-                >
-                  <Paper sx={{ width: 200 }}>
-                    <Card
-                      asButton
-                      onClick={() =>
-                        console.log(selectedCustomer.customer_name)
-                      }
-                    >
-                      <Stack direction='row' alignItems='left' spacing={2}>
-                        <Typography gutterTop variant='h6' component='div'>
-                          <IconButton
-                            color='primary'
-                            aria-label='edit customer'
-                            component='span'
-                            onClick={() => handleEdit(selectedCustomer)}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                          {selectedCustomer.customer_name}
-                        </Typography>
-                      </Stack>
-                      <Button>
-                        <Box sx={{ width: 190, hight: 200 }}>
-                          <CardMedia
-                            component='img'
-                            height='140'
-                            image={selectedCustomer.logo}
-                            alt={selectedCustomer.customer_name}
-                          />
-                        </Box>
-                      </Button>
-                    </Card>
-                  </Paper>
-                </Badge>
-              </Grid>
-            ))}
-        </Grid>
-      </Container>
+      <Box>
+        <CustomersWizard
+          selectedCustomer={selectedCustomer}
+          setOpenEdit={(change) => setOpenEdit(change)}
+          openEdit={openEdit}
+          editMode={editMode}
+        />
+
+        <Container>
+          <Box display='flex'>
+            <IconButton
+              size='large'
+              color='primary'
+              aria-label='edit customer'
+              component='span'
+              onClick={handleAddCustomer}
+            >
+              <AddCircleTwoToneIcon fontSize='large' />
+            </IconButton>
+
+            <CustomersSearchBar setSearchQ={(q) => setSearchQ(q)} />
+          </Box>
+        </Container>
+        <Container className='mt-4'>
+          <Grid container spacing={3}>
+            {customers &&
+              customers[0] &&
+              filterCustomersData(customers).map((selectedCustomer) => (
+                <Grid item id={selectedCustomer.id}>
+                  <CustomerItem
+                    selectedCustomer={selectedCustomer}
+                    handleEdit={(customer) => handleEdit(customer)}
+                  />
+                </Grid>
+              ))}
+          </Grid>
+        </Container>
+      </Box>
     </div>
   );
 }

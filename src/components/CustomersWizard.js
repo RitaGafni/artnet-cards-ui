@@ -65,7 +65,7 @@ export default function CustomerWizard(props) {
       setPreviewLogo(defaultImage);
       setNewLogo(null);
       console.log('reload window!');
-      window.location.reload(false);
+      // window.location.reload(false);
     } catch (err) {
       setError(`couldn't create new customer`);
       console.log(err);
@@ -130,8 +130,8 @@ export default function CustomerWizard(props) {
     setPreviewLogo(defaultImage);
   };
 
-  const handleClosedeleteVer = () => {
-    setDeleteVer(false);
+  const handleClosedeleteVer = async () => {
+    await setDeleteVer(false);
   };
 
   function editCustomerName(e) {

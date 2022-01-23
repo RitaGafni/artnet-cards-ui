@@ -15,7 +15,7 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentUserRole, setCurrentUserRole] = useState('undefined');
 
@@ -25,7 +25,7 @@ export function AuthProvider({ children }) {
 
   async function login(email, password) {
     const loginRes = await signInWithEmailAndPassword(auth, email, password);
-    await fetchUserRole(loginRes.user.uid);
+    setCurrentUserRole(fetchUserRole(email))
     return loginRes;
   }
 
@@ -37,15 +37,22 @@ export function AuthProvider({ children }) {
     return sendPasswordResetEmail(auth, email);
   }
 
-  async function fetchUserRole(uid) {
-    const url = 'http://localhost:5000/users/' + uid;
-    const { data } = await axios(url);
-    setCurrentUserRole(data.role);
+  async function fetchUserRole(email) {
+    const url = 'http://localhost:5000/users?email=' + email;
+    const  {data}  = await axios(url);
+    console.log('fetch role');
+    console.log(data);
+    console.log(data[0]);
+    console.log(data[0].role);
+    return data[0].role
   }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
+      console.log('this is hapenning');
+      const role = fetchUserRole(user);
+      setCurrentUserRole(role)
       setLoading(false);
       return unsubscribe;
     });

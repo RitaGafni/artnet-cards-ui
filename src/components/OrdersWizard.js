@@ -38,9 +38,8 @@ const Item = styled(Box)(({ theme }) => ({
 }));
 
 export default function CustomerWizard(props) {
-  const [deleteVer, setDeleteVer] = useState(false);
   const [nameVerError, setNameVerError] = useState('');
-  const [newLogo, setNewLogo] = useState(null);
+  const [newImg, setNewImg] = useState(null);
   const [previewImg, setPreviewImg] = useState(defaultImage);
   const [error, setError] = useState('');
   const [status, setStatus] = useState('');
@@ -55,8 +54,11 @@ export default function CustomerWizard(props) {
     img: '',
   });
 
-  function handleStatusChange(event) {
-    setStatus(event.target.value);
+  function handleStatusChange(e) {
+    console.log(e.target.value);
+    setOrder((prevOrder) => {
+      return { ...prevOrder, status: e.target.value };
+    });
   }
 
   useEffect(() => {
@@ -71,15 +73,16 @@ export default function CustomerWizard(props) {
         img: props.selectedOrder.img,
       });
       setPreviewImg(props.selectedOrder.img);
+    } else {
+      setPreviewImg(defaultImage);
     }
-    setPreviewImg(defaultImage);
   }, [props.editMode, props.selectedOrder, props.setOpenEdit]);
 
   async function createNewCustomer() {
     setError('');
     const uploadRef = ref(storage, `${order.customer}.png`);
     try {
-      const snapshot = await uploadBytes(uploadRef, newLogo);
+      const snapshot = await uploadBytes(uploadRef, newImg);
       const newURL = await getDownloadURL(uploadRef);
       const res = await axios.post('http://localhost:5000/orders/', {
         id: '',
@@ -93,7 +96,7 @@ export default function CustomerWizard(props) {
       console.log(res);
       props.setOpenEdit(false);
       setPreviewImg(defaultImage);
-      setNewLogo(null);
+      setNewImg(null);
       console.log('reload window!');
       window.location.reload(false);
     } catch (err) {
@@ -102,56 +105,53 @@ export default function CustomerWizard(props) {
     }
   }
 
-  async function editCustomer() {
+  async function editOrder() {
     var URL = order.img;
     setError('');
     try {
-      if (newLogo) {
+      if (newImg) {
         const uploadRef = ref(storage, `${order.customer}.png`);
-        const snapshot = await uploadBytes(uploadRef, newLogo);
+        const snapshot = await uploadBytes(uploadRef, newImg);
         URL = await getDownloadURL(uploadRef);
-        setNewLogo(null);
+        setNewImg(null);
       }
 
-      const res = await axios.put(
-        `http://localhost:5000/customers/${order.id}`,
-        {
-          id: order.id,
-          employeeName: order.employeeName,
-          company: order.company,
-          status: order.status,
-          creationDate: order.creationDate,
-          customer: order.customer,
-          img: URL,
-        }
-      );
+      const res = await axios.put(`http://localhost:5000/orders/${order.id}`, {
+        id: order.id,
+        employeeName: order.employeeName,
+        company: order.company,
+        status: order.status,
+        creationDate: order.creationDate,
+        customer: order.customer,
+        img: URL,
+      });
       console.log(res);
       props.setOpenEdit(false);
       window.location.reload(false);
     } catch (error) {
-      setError(`couldn't update customer`);
+      setError(`couldn't update order`);
       console.log(error);
     }
   }
 
   async function handleSaveChanges() {
     setError('');
-    if (
-      props.editMode &&
-      props.selectedOrder.customer_name === order.employeeName &&
-      !newLogo
-    ) {
-      props.setOpenEdit(false);
+    // if (
+    //   props.editMode &&
+    //   props.selectedOrder.customer_name === order.employeeName &&
+    //   !newImg
+    // ) {
+    //   props.setOpenEdit(false);
 
-      return;
-    }
+    //   return;
+    // }
 
-    if (order.employeeName === '') {
-      setNameVerError('Name Cannot be blank');
-      return;
-    }
+    // if (order.employeeName === '') {
+    //   setNameVerError('Name Cannot be blank');
+    //   return;
+    // }
     if (props.editMode) {
-      editCustomer();
+      editOrder();
     } else {
       createNewCustomer();
     }
@@ -164,7 +164,7 @@ export default function CustomerWizard(props) {
   };
 
   const handleClosedeleteVer = () => {
-    setDeleteVer(false);
+    props.setDeleteVer(false);
   };
 
   function editOrder(e) {
@@ -174,29 +174,24 @@ export default function CustomerWizard(props) {
     });
   }
 
-  function handleDeleteVer() {
-    setDeleteVer(true);
+  async function handleDelete() {
+    try {
+      const res = await axios.delete(
+        `http://localhost:5000/orders/${props.orderToDelete.id}`
+      );
+      console.log(res);
+      props.setDeleteVer(false);
+      window.location.reload(false);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  // async function handleDelete() {
-  //   try {
-  //     const res = await axios.delete(
-  //       `http://localhost:5000/customers/${customer.id}`
-  //     );
-  //     console.log(res);
-  //     setDeleteVer(false);
-  //     props.setOpenEdit(false);
-  //     window.location.reload(false);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
-  function handleLogoChange(e) {
+  function handleImgChange(e) {
     if (e.target.files[0]) {
       console.log(e.target.files[0]);
       setPreviewImg(URL.createObjectURL(e.target.files[0]));
-      setNewLogo(e.target.files[0]);
+      setNewImg(e.target.files[0]);
     }
   }
 
@@ -263,14 +258,14 @@ export default function CustomerWizard(props) {
                           <Select
                             labelId='status'
                             id='demo-simple-select'
-                            value={status}
+                            value={order.status}
                             label='status'
                             onChange={handleStatusChange}
                           >
-                            <MenuItem value={'new'}>new</MenuItem>
-                            <MenuItem value={'approved'}>approved</MenuItem>
-                            <MenuItem value={'printed'}>printed</MenuItem>
-                            <MenuItem value={'shipped'}>shipped</MenuItem>
+                            <MenuItem value='new'>new</MenuItem>
+                            <MenuItem value='approved'>approved</MenuItem>
+                            <MenuItem value='printed'>printed</MenuItem>
+                            <MenuItem value='shipped'>shipped</MenuItem>
                           </Select>
                         </FormControl>
                       </Box>
@@ -298,7 +293,7 @@ export default function CustomerWizard(props) {
                         accept='image/*'
                         id='icon-button-file'
                         type='file'
-                        onChange={handleLogoChange}
+                        onChange={handleImgChange}
                       />
                       <IconButton
                         color='primary'
@@ -318,6 +313,30 @@ export default function CustomerWizard(props) {
             <Button onClick={handleClose}>Close</Button>
           </DialogActions>
         </Dialog>
+      </div>
+      <div>
+        {props.orderToDelete && (
+          <Dialog
+            open={props.deleteVer}
+            onClose={handleClosedeleteVer}
+            aria-labelledby='alert-dialog-title'
+            aria-describedby='alert-dialog-description'
+          >
+            <DialogTitle id='alert-dialog-title'>{'Delete order'}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id='alert-dialog-description'>
+                you are about to Delete {props.orderToDelete.employeeName}, Are
+                you sure?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClosedeleteVer}>No</Button>
+              <Button onClick={handleDelete} autoFocus>
+                Yes, Delete
+              </Button>
+            </DialogActions>
+          </Dialog>
+        )}
       </div>
     </div>
   );
