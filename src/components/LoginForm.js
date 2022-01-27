@@ -12,7 +12,7 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
 
-function Login() {
+export default function Login() {
   const { login } = useAuth();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -113,5 +113,3 @@ function Login() {
     </div>
   );
 }
-
-export default Login;
