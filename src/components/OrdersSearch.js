@@ -49,37 +49,18 @@ export default function OrdersSearch(props) {
 
   return (
     <div>
-      <div>
-        <Tabs
-          defaultActiveKey='basicSearch'
-          id='uncontrolled-tab-example'
-          className='mb-3 mt-3'
-          onSelect={(k) => tabSelect(k)}
-        >
-          <Tab eventKey='basicSearch' title='Search'>
-            <InputGroup className='mb-3 mt-3' style={{ width: '30rem' }}>
-              <InputGroup.Text id='search-addon1'>
-                <BsSearch
-                  title='Search'
-                  style={{ margin: 2, marginRight: 2 }}
-                />{' '}
-                Search
-              </InputGroup.Text>
-            </InputGroup>
-          </Tab>
-          <Tab
-            eventKey='advancedSearch'
-            title='Advanced Search'
-            //onSelect={changeSearchType((e) => e.target.eventKey)}
-          >
-            <OrdersAdvancedSearch
-              onChange={(e) => updateAdvSearchQ(e.target.value)}
-            />
-          </Tab>
-        </Tabs>
-      </div>
       <Container>
-        <Stack direction='row' spacing={2}>
+        <Box>
+          <Fab
+            onClick={handleChangeAdvancedMenu}
+            variant='extended'
+            color='primary'
+          >
+            <ManageSearchIcon sx={{ mr: 1 }} />
+            Advanced Search
+          </Fab>
+        </Box>
+        {!checked && (
           <Box
             sx={{
               width: 400,
@@ -97,31 +78,14 @@ export default function OrdersSearch(props) {
               onChange={(e) => updateBasicSearchQ(e.target.value)}
             />
           </Box>
-          <Grid alignItems='center'>
-            <Fab
-              onClick={handleChangeAdvancedMenu}
-              variant='extended'
-              color='primary'
-            >
-              <ManageSearchIcon sx={{ mr: 1 }} />
-              Advanced Search
-            </Fab>
-          </Grid>
-        </Stack>
+        )}
+
         {checked && (
-          <Box sx={{ height: 80 }}>
+          <Box sx={{ height: 160 }}>
             <Box sx={{ display: 'flex' }}>
-              <Grow in={checked}>
-                <TextField
-                  size='small'
-                  id='advanced search '
-                  label='Advanced Search '
-                  variant='outlined'
-                  margin='normal'
-                  value={basicSearch}
-                  onChange={(e) => updateBasicSearchQ(e.target.value)}
-                />
-              </Grow>
+              <OrdersAdvancedSearch
+                onChange={(e) => updateAdvSearchQ(e.target.value)}
+              />
             </Box>
           </Box>
         )}
