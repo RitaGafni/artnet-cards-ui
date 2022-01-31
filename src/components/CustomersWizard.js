@@ -6,15 +6,19 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import { DialogTitle, DialogContentText, Stack, Alert } from '@mui/material/';
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import FormControl from '@mui/material/FormControl';
 import Image from 'mui-image';
-import axios from 'axios';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { styled } from '@mui/material/styles';
-import { storage } from '../firebase';
-import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
 import defaultImage from '../images/defaultImg.jpg';
+import {
+  deleteCustomer,
+  getURLOfLogo,
+  PostNewCustomer,
+  updateCustomer,
+} from '../Controllers/CustomerController';
 
 const Input = styled('input')({
   display: 'none',
@@ -26,6 +30,7 @@ export default function CustomerWizard(props) {
   const [newLogo, setNewLogo] = useState(null);
   const [previewLogo, setPreviewLogo] = useState(defaultImage);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const [customer, setCustomer] = useState({
     id: '',
@@ -33,6 +38,8 @@ export default function CustomerWizard(props) {
     logo: '',
     new_orders: '',
   });
+
+  console.log('props.selectedCustomer', props.selectedCustomer);
 
   useEffect(() => {
     if (props.selectedCustomer) {
@@ -50,53 +57,60 @@ export default function CustomerWizard(props) {
 
   async function createNewCustomer() {
     setError('');
-    const uploadRef = ref(storage, `${customer.customer_name}.png`);
     try {
-      const snapshot = await uploadBytes(uploadRef, newLogo);
-      const newURL = await getDownloadURL(uploadRef);
-      const res = await axios.post('http://localhost:5000/customers/', {
-        id: '',
-        customer_name: customer.customer_name,
-        logo: newURL,
-        new_orders: 0,
-      });
-      console.log(res);
+      setIsLoading(true);
+      const newURL = await getURLOfLogo(newLogo, customer.customer_name);
+      const response = await PostNewCustomer(customer.customer_name, newURL);
+      console.log(response);
       props.setOpenEdit(false);
       setPreviewLogo(defaultImage);
       setNewLogo(null);
-      console.log('reload window!');
-      // window.location.reload(false);
-    } catch (err) {
+      setIsLoading(false);
+      window.location.reload(false);
+    } catch (error) {
+      setIsLoading(false);
       setError(`couldn't create new customer`);
-      console.log(err);
+      console.log(error);
     }
   }
 
   async function editCustomer() {
-    var URL = customer.logo;
     setError('');
     try {
+      setIsLoading(true);
+      let logoURLToUpload = customer.logo;
       if (newLogo) {
-        const uploadRef = ref(storage, `${customer.customer_name}.png`);
-        const snapshot = await uploadBytes(uploadRef, newLogo);
-        URL = await getDownloadURL(uploadRef);
+        logoURLToUpload = await getURLOfLogo(newLogo, customer.customer_name);
+        console.log('the logo', logoURLToUpload);
         setNewLogo(null);
       }
-
-      const res = await axios.put(
-        `http://localhost:5000/customers/${customer.id}`,
-        {
-          id: customer.id,
-          customer_name: customer.customer_name,
-          logo: URL,
-          new_orders: 0,
-        }
-      );
-      console.log(res);
+      const response = await updateCustomer(customer, logoURLToUpload);
+      console.log('edit respose', response);
       props.setOpenEdit(false);
+      setIsLoading(false);
+
       window.location.reload(false);
     } catch (error) {
+      setIsLoading(false);
+
       setError(`couldn't update customer`);
+      console.log(error);
+    }
+  }
+
+  async function handleDeleteCustomer() {
+    setError('');
+    try {
+      setIsLoading(true);
+      const response = deleteCustomer(customer.id);
+      console.log(response);
+      setDeleteVer(false);
+      props.setOpenEdit(false);
+      setIsLoading(false);
+      window.location.reload(false);
+    } catch (error) {
+      setIsLoading(false);
+      setError('couldnt delete customer');
       console.log(error);
     }
   }
@@ -117,6 +131,7 @@ export default function CustomerWizard(props) {
       setNameVerError('Name Cannot be blank');
       return;
     }
+
     if (props.editMode) {
       editCustomer();
     } else {
@@ -124,13 +139,13 @@ export default function CustomerWizard(props) {
     }
   }
 
-  const handleClose = () => {
+  const handleCloseCustomersWizard = () => {
     props.setOpenEdit(false);
     setNameVerError('');
     setPreviewLogo(defaultImage);
   };
 
-  const handleClosedeleteVer = async () => {
+  const handleCloseDeleteVerification = async () => {
     await setDeleteVer(false);
   };
 
@@ -141,27 +156,12 @@ export default function CustomerWizard(props) {
     });
   }
 
-  function handleDeleteVer() {
+  function handleDeleteVerification() {
     setDeleteVer(true);
-  }
-
-  async function handleDelete() {
-    try {
-      const res = await axios.delete(
-        `http://localhost:5000/customers/${customer.id}`
-      );
-      console.log(res);
-      setDeleteVer(false);
-      props.setOpenEdit(false);
-      window.location.reload(false);
-    } catch (error) {
-      console.log(error);
-    }
   }
 
   function handleLogoChange(e) {
     if (e.target.files[0]) {
-      console.log(e.target.files[0]);
       setPreviewLogo(URL.createObjectURL(e.target.files[0]));
       setNewLogo(e.target.files[0]);
     }
@@ -171,7 +171,7 @@ export default function CustomerWizard(props) {
     <div>
       <div>
         {props.selectedCustomer && (
-          <Dialog open={props.openEdit} onClose={handleClose}>
+          <Dialog open={props.openEdit} onClose={handleCloseCustomersWizard}>
             <DialogTitle>
               {props.editMode
                 ? `Edit Customer ${props.selectedCustomer.customer_name}`
@@ -179,7 +179,7 @@ export default function CustomerWizard(props) {
             </DialogTitle>
             {error && <Alert severity='error'>{error}</Alert>}
             <DialogContent>
-              <Stack direction='column' alignItems='center'>
+              <Stack container='true' direction='column' alignItems='center'>
                 <TextField
                   required
                   id='customer_name'
@@ -203,10 +203,9 @@ export default function CustomerWizard(props) {
                     width='100%'
                     duration={0}
                     fit='contain'
-                    position='right'
                   />
                 </Box>
-                <Stack direction='row' alignItems='center'>
+                <Stack container='true' direction='row' alignItems='center'>
                   <label htmlFor='icon-button-file'>
                     <Input
                       accept='image/*'
@@ -218,6 +217,7 @@ export default function CustomerWizard(props) {
                       color='primary'
                       aria-label='upload picture'
                       component='span'
+                      disabled={isLoading}
                     >
                       <PhotoCamera />
                     </IconButton>
@@ -227,10 +227,16 @@ export default function CustomerWizard(props) {
             </DialogContent>
             <DialogActions>
               {props.editMode && (
-                <Button onClick={handleDeleteVer}>Delete</Button>
+                <Button disabled={isLoading} onClick={handleDeleteVerification}>
+                  Delete
+                </Button>
               )}
-              <Button onClick={handleSaveChanges}>Save Changes</Button>
-              <Button onClick={handleClose}>Close</Button>
+              <Button disabled={isLoading} onClick={handleSaveChanges}>
+                Save Changes
+              </Button>
+              <Button disabled={isLoading} onClick={handleCloseCustomersWizard}>
+                Close
+              </Button>
             </DialogActions>
           </Dialog>
         )}
@@ -239,7 +245,7 @@ export default function CustomerWizard(props) {
         {props.selectedCustomer && (
           <Dialog
             open={deleteVer}
-            onClose={handleClosedeleteVer}
+            onClose={handleCloseDeleteVerification}
             aria-labelledby='alert-dialog-title'
             aria-describedby='alert-dialog-description'
           >
@@ -253,8 +259,17 @@ export default function CustomerWizard(props) {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleClosedeleteVer}>No</Button>
-              <Button onClick={handleDelete} autoFocus>
+              <Button
+                disabled={isLoading}
+                onClick={handleCloseDeleteVerification}
+              >
+                No
+              </Button>
+              <Button
+                disabled={isLoading}
+                onClick={handleDeleteCustomer}
+                autoFocus
+              >
                 Yes, Delete
               </Button>
             </DialogActions>

@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import {fetchOrders} from '../Services/CustomerServices'
+import {fetchOrders} from '../Controllers/CustomerController'
 import OrdersDataTable from './OrdersDataTable'
 import Orders from './Orders';
 import Companies from './Companies';

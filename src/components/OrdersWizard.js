@@ -8,24 +8,26 @@ import {
   DialogTitle,
   DialogContentText,
   Stack,
-  Alert,
   Grid,
   InputLabel,
-  MenuItem,
   Select,
-  Paper,
 } from '@mui/material/';
+import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import Image from 'mui-image';
-import axios from 'axios';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { styled } from '@mui/material/styles';
 import { storage } from '../firebase';
 import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
-import defaultImage from '../images/defaultImg.jpg';
-
+import {
+  deleteOrder,
+  getURLOfImg,
+  postOrder,
+  updateOrder,
+} from '../Controllers/OrdersController';
+// import defaultImg from '../images/defaultImg';
 const Input = styled('input')({
   display: 'none',
 });
@@ -38,11 +40,11 @@ const Item = styled(Box)(({ theme }) => ({
 }));
 
 export default function CustomerWizard(props) {
+  const defaultImg = '';
   const [nameVerError, setNameVerError] = useState('');
   const [newImg, setNewImg] = useState(null);
-  const [previewImg, setPreviewImg] = useState(defaultImage);
+  const [previewImg, setPreviewImg] = useState(defaultImg);
   const [error, setError] = useState('');
-  const [status, setStatus] = useState('');
 
   const [order, setOrder] = useState({
     id: '',
@@ -50,12 +52,16 @@ export default function CustomerWizard(props) {
     company: '',
     status: '',
     creationDate: '',
-    customer: '',
+    customerId: '',
+    TZ: '',
     img: '',
   });
 
+  console.log('order', order);
+  console.log('props.selectedOrder', props.selectedOrder);
+  console.log('edirmode', props.editMode);
+
   function handleStatusChange(e) {
-    console.log(e.target.value);
     setOrder((prevOrder) => {
       return { ...prevOrder, status: e.target.value };
     });
@@ -69,12 +75,13 @@ export default function CustomerWizard(props) {
         company: props.selectedOrder.company,
         status: props.selectedOrder.status,
         creationDate: props.selectedOrder.creationDate,
-        customer: props.selectedOrder.customer,
+        customerId: props.selectedOrder.customerId,
+        TZ: props.selectedOrder.TZ,
         img: props.selectedOrder.img,
       });
       setPreviewImg(props.selectedOrder.img);
     } else {
-      setPreviewImg(defaultImage);
+      setPreviewImg(defaultImg);
     }
   }, [props.editMode, props.selectedOrder, props.setOpenEdit]);
 
@@ -83,49 +90,31 @@ export default function CustomerWizard(props) {
     const uploadRef = ref(storage, `${order.customer}.png`);
     try {
       const snapshot = await uploadBytes(uploadRef, newImg);
+      console.log(snapshot);
       const newURL = await getDownloadURL(uploadRef);
-      const res = await axios.post('http://localhost:5000/orders/', {
-        id: '',
-        employeeName: order.employeeName,
-        company: order.company,
-        status: order.status,
-        creationDate: order.creationDate,
-        customer: order.customer,
-        img: newURL,
-      });
+      const res = postOrder(order, newURL);
       console.log(res);
       props.setOpenEdit(false);
-      setPreviewImg(defaultImage);
+      setPreviewImg(defaultImg);
       setNewImg(null);
       console.log('reload window!');
-      window.location.reload(false);
+      // window.location.reload(false);
     } catch (err) {
       setError(`couldn't create new customer`);
       console.log(err);
     }
   }
 
-  async function editOrder() {
-    var URL = order.img;
+  async function updateEditedOrder() {
     setError('');
     try {
+      let imgURLtoUpload = order.img;
       if (newImg) {
-        const uploadRef = ref(storage, `${order.customer}.png`);
-        const snapshot = await uploadBytes(uploadRef, newImg);
-        URL = await getDownloadURL(uploadRef);
+        imgURLtoUpload = await getURLOfImg(newImg, order.TZ);
         setNewImg(null);
       }
-
-      const res = await axios.put(`http://localhost:5000/orders/${order.id}`, {
-        id: order.id,
-        employeeName: order.employeeName,
-        company: order.company,
-        status: order.status,
-        creationDate: order.creationDate,
-        customer: order.customer,
-        img: URL,
-      });
-      console.log(res);
+      const reponse = await updateOrder(order, imgURLtoUpload);
+      console.log(reponse);
       props.setOpenEdit(false);
       window.location.reload(false);
     } catch (error) {
@@ -136,23 +125,27 @@ export default function CustomerWizard(props) {
 
   async function handleSaveChanges() {
     setError('');
-    // if (
-    //   props.editMode &&
-    //   props.selectedOrder.customer_name === order.employeeName &&
-    //   !newImg
-    // ) {
-    //   props.setOpenEdit(false);
+    if (
+      props.editMode &&
+      props.selectedOrder.employeeName === order.employeeName &&
+      props.selectedOrder.company === order.company &&
+      props.selectedOrder.TZ === order.TZ &&
+      !newImg
+    ) {
+      props.setOpenEdit(false);
+      return;
+    }
 
-    //   return;
-    // }
+    if (order.employeeName === '') {
+      console.log('baaaaam');
+      setNameVerError('Name Cannot be blank');
+      return;
+    }
 
-    // if (order.employeeName === '') {
-    //   setNameVerError('Name Cannot be blank');
-    //   return;
-    // }
     if (props.editMode) {
-      editOrder();
+      updateEditedOrder();
     } else {
+      console.log('order', order);
       createNewCustomer();
     }
   }
@@ -160,14 +153,14 @@ export default function CustomerWizard(props) {
   const handleClose = () => {
     props.setOpenEdit(false);
     setNameVerError('');
-    setPreviewImg(defaultImage);
+    setPreviewImg(defaultImg);
   };
 
   const handleClosedeleteVer = () => {
     props.setDeleteVer(false);
   };
 
-  function editOrder(e) {
+  function handleEditOrder(e) {
     setNameVerError('');
     setOrder((prevOrder) => {
       return { ...prevOrder, [e.target.name]: e.target.value };
@@ -176,10 +169,8 @@ export default function CustomerWizard(props) {
 
   async function handleDelete() {
     try {
-      const res = await axios.delete(
-        `http://localhost:5000/orders/${props.orderToDelete.id}`
-      );
-      console.log(res);
+      const response = await deleteOrder(props.orderToDelete.id);
+      console.log(response);
       props.setDeleteVer(false);
       window.location.reload(false);
     } catch (error) {
@@ -189,7 +180,6 @@ export default function CustomerWizard(props) {
 
   function handleImgChange(e) {
     if (e.target.files[0]) {
-      console.log(e.target.files[0]);
       setPreviewImg(URL.createObjectURL(e.target.files[0]));
       setNewImg(e.target.files[0]);
     }
@@ -199,7 +189,9 @@ export default function CustomerWizard(props) {
     <div>
       <div>
         <Dialog open={props.openEdit} onClose={handleClose}>
-          <DialogTitle>{props.new ? 'New Order' : 'Edit Order'}</DialogTitle>
+          <DialogTitle>
+            {props.editMode ? 'Edit Order' : 'New Order'}
+          </DialogTitle>
           <DialogContent>
             <Grid container xs={18} sm={12}>
               <Stack direction='row'>
@@ -216,7 +208,7 @@ export default function CustomerWizard(props) {
                         autoComplete='given-name'
                         variant='standard'
                         value={order.employeeName}
-                        onChange={editOrder}
+                        onChange={handleEditOrder}
                         error={nameVerError !== ''}
                         helperText={nameVerError}
                       />
@@ -232,7 +224,7 @@ export default function CustomerWizard(props) {
                         autoComplete='company'
                         variant='standard'
                         value={order.company}
-                        onChange={editOrder}
+                        onChange={handleEditOrder}
                         error={nameVerError !== ''}
                         helperText={nameVerError}
                       />
@@ -245,8 +237,8 @@ export default function CustomerWizard(props) {
                         fullWidth
                         autoComplete='customer'
                         variant='standard'
-                        value={order.customer}
-                        onChange={editOrder}
+                        value={order.TZ}
+                        onChange={handleEditOrder}
                         error={nameVerError !== ''}
                         helperText={nameVerError}
                       />
@@ -286,7 +278,6 @@ export default function CustomerWizard(props) {
                       width='100%'
                       duration={0}
                       fit='contain'
-                      position='right'
                     />
                     <label htmlFor='icon-button-file'>
                       <Input

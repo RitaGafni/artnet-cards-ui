@@ -1,4 +1,3 @@
-import UserTable from './components/tables';
 import Customers from './components/Customers';
 import './App.css';
 import {
@@ -15,7 +14,6 @@ import ForgotPassword from './components/ForgotPassword';
 import PrivetRoute from './components/PrivetRoute';
 import updateProfile from './components/updateProfile';
 import Orders from './components/Orders';
-import OrdersTable from './components/OrdersDataTable';
 import { useSelector } from 'react-redux';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import NavBar from './components/NavBar';
@@ -28,10 +26,10 @@ const theme = createTheme({
 });
 
 function App() {
-  const state = useSelector((state) => state);
+  // const state = useSelector((state) => state);
   // const { currentUser } = useAuth();
 
-  console.log(state);
+  // console.log(state);
 
   return (
     <ThemeProvider theme={theme}>
@@ -46,12 +44,10 @@ function App() {
               <Route path='/signup' component={SignupForm} />
               <Route path='/forgot-password' component={ForgotPassword} />
               <PrivetRoute path='/update-profile' component={updateProfile} />
-              {/* <Route path='/orders' component={Orders} isAdmin={true} /> */}
               <Route path='/customers' component={Customers} />
               <Route path='/orders'>
                 <Orders isAdmin={true} />
               </Route>
-              <Route path='/data' component={OrdersTable} />
             </Switch>
           </div>
         </AuthProvider>

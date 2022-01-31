@@ -44,13 +44,13 @@ export default function CustomerItem(props) {
                 >
                   <Paper sx={{ width: 200 }}>
                     <Card
-                      asButton
+                      asbutton='true'
                       onClick={() =>
                         console.log(props.selectedCustomer.customer_name)
                       }
                     >
                       <Stack direction='row' alignItems='left' spacing={2}>
-                        <Typography gutterTop variant='h7' component='div'>
+                        <Typography  variant='h7' component='div'>
                           <IconButton
                             color='primary'
                             aria-label='edit customer'
@@ -65,7 +65,7 @@ export default function CustomerItem(props) {
                       <Button>
                         <Box sx={{ width: 200, hight: 220 }}>
                           <CardMedia
-                                    className={classes.media}
+                            className={classes.media}
 
                             component='img'
                             height='160'

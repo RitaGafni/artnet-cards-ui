@@ -1,5 +1,5 @@
 import { Container, Stack } from '@mui/material';
-import AdvSearchInput from './AdvSearchInput';
+import AdvSearchInput from './OrdersAdvSearchInput';
 
 export default function OrdersAdvancedSearch() {
   return (

@@ -9,15 +9,14 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
 export default function NavBar() {
   const { currentUser, currentUserRole, logout } = useAuth();
-  const user = currentUser.email.split('@', 1);
-  const userRole =  currentUserRole;
+  // const user = currentUser.email.split('@', 1);
+  // const userRole =  currentUserRole;
    const [error, setError] = useState('');
 
   const history = useHistory();
@@ -62,27 +61,7 @@ export default function NavBar() {
             >
               <MenuIcon />
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+      
           </Box>
           <Typography
             variant="h6"
@@ -94,10 +73,10 @@ export default function NavBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
            
-              <Button Link href='orders' sx={{ my: 2, color: 'white', display: 'block' }}>
+              <Button link='true' href='orders' sx={{ my: 2, color: 'white', display: 'block' }}>
               Orders
               </Button>
-              <Button Link href='customers' sx={{ my: 2, color: 'white', display: 'block' }}>
+              <Button link='true' href='customers' sx={{ my: 2, color: 'white', display: 'block' }}>
               Customers
               </Button>
           </Box>
@@ -105,7 +84,7 @@ export default function NavBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <Typography  sx={{ my: 2, color: 'white', display: 'block' }}>
-                Hello {user} you are 
+                Hello user you are 
                 
               </Typography>
             </Tooltip>
@@ -114,40 +93,6 @@ export default function NavBar() {
         </Toolbar>
       </Container>
     </AppBar>
-
-      {/* <Navbar bg='light' expand='lg'>
-        <Container fluid>
-          <Navbar.Brand href='#'>Artnet Cards App</Navbar.Brand>
-          <Navbar.Toggle aria-controls='navbarScroll' />
-          <Navbar.Collapse id='navbarScroll'>
-            <Nav
-              className='me-auto my-2 my-lg-0'
-              style={{ maxHeight: '100px' }}
-              navbarScroll
-            >
-              <NavDropdown title={`Hello ${user}`} id='navbarScrollingDropdown'>
-                <NavDropdown.Item href='#action3'>
-                  {' '}
-                  You Are {currentUserRole}{' '}
-                </NavDropdown.Item>
-                <NavDropdown.Item href='#action4'>
-                  Edit profile
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href='logout' onClick={handleLogout}>
-                  Log out
-                </NavDropdown.Item>
-              </NavDropdown>
-              <Nav.Link href='orders'>Orders</Nav.Link>
-              <Nav.Link href='customers'>Customers</Nav.Link>
-
-              <Nav.Link href='#' disabled>
-                Link
-              </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar> */}
     </div>
   );
 }

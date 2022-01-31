@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {fetchUsers, getValueFromId} from '../Services/UsersServises'
+import {fetchUsers} from '../Controllers/UsersServises'
 import { DataGrid } from '@mui/x-data-grid';
 import { Box } from '@mui/system';
 import IconButton from '@mui/material/IconButton';
@@ -20,7 +20,6 @@ const [usersList, setUsersList] = useState()
       }, [setUsersList, props.customerId]);
 
            
-
       const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'email', headerName: 'Email', width: 240 },
@@ -60,8 +59,7 @@ const [usersList, setUsersList] = useState()
           function handleDelete(row){
             console.log(row);
         }
-
-      
+     
 
     return (
         <div>

@@ -2,11 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CustomersSearchBar from './CustomersSearchBar';
 import { Grid, Container, IconButton, Box } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CustomersWizard from './CustomersWizard';
 import CustomerItem from './CustomerItem';
-import { makeStyles } from '@mui/styles';
-import SearchIcon from '@mui/icons-material/Search';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 
 function Customers(props) {
@@ -85,7 +82,7 @@ function Customers(props) {
             {customers &&
               customers[0] &&
               filterCustomersData(customers).map((selectedCustomer) => (
-                <Grid item id={selectedCustomer.id}>
+                <Grid key={selectedCustomer.id} item id={selectedCustomer.id}>
                   <CustomerItem
                     selectedCustomer={selectedCustomer}
                     handleEdit={(customer) => handleEdit(customer)}

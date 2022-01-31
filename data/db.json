@@ -749,6 +749,18 @@
       "customer_name": "Azrieli Towers",
       "logo": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/Azrieli%20Towers.png?alt=media&token=40d14e6b-7b4e-4778-a758-1d713dd31835",
       "new_orders": 2
+    },
+    {
+      "id": 9,
+      "customer_name": "Rita Pita",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/Rita%20Pita.png?alt=media&token=d65a0c51-98b3-4e7c-9283-f09910c3ea6e",
+      "new_orders": 0
+    },
+    {
+      "id": 10,
+      "customer_name": "hi",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/hi.png?alt=media&token=0b3c3310-3273-44f2-a4c5-ed31a41d5b64",
+      "new_orders": 0
     }
   ],
   "companies": [
@@ -1276,13 +1288,13 @@
     },
     {
       "id": 3,
-      "employeeName": "Veronika Olensby",
+      "employeeName": "Veronika Olensb",
       "company": "Fivechat",
       "status": "new",
       "creationDate": "16/02/2014",
-      "customerId": 8,
       "TZ": "851-42-4972",
-      "img": "https://robohash.org/consequaturveniamasperiores.png?size=100x120&set=set1"
+      "customerId": 8,
+      "img": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/undefined.png?alt=media&token=7bfea01d-5f8b-442e-b24e-0992aca25a4f"
     },
     {
       "id": 4,
@@ -2253,6 +2265,35 @@
       "customerId": 8,
       "TZ": "855-10-4809",
       "img": "https://robohash.org/officiatotamquod.png?size=100x120&set=set1"
+    },
+    {
+      "id": 101,
+      "img": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/undefined.png?alt=media&token=4312ddc0-d55f-4dab-9914-cecff5af1875"
+    },
+    {
+      "id": 102,
+      "img": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/undefined.png?alt=media&token=8a904b0d-e708-44a7-93e2-230c004c8f1a"
+    },
+    {
+      "id": 103,
+      "img": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/undefined.png?alt=media&token=c3bbf263-359a-4486-ba6b-a302d48b10e8"
+    },
+    {
+      "id": 104,
+      "employeeName": "Rita",
+      "company": "Intel",
+      "status": "",
+      "creationDate": "",
+      "TZ": "",
+      "customerId": "",
+      "img": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/5.png?alt=media&token=d34c8222-5d91-4ce4-951d-2fe736b4bba7"
+    },
+    {
+      "id": 105,
+      "employeeName": "ritapita",
+      "company": "Intel",
+      "status": "new",
+      "img": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/undefined.png?alt=media&token=62e7bd3b-90dc-4c8a-bb57-26cf75b1584d"
     }
   ]
 }

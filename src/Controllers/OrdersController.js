@@ -1,6 +1,9 @@
 import axios from 'axios'
-const API_ADRESS = 'http://localhost:5000'
+import { storage } from '../firebase';
+import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
 
+
+const API_ADRESS = 'http://localhost:5000'
 
 export async function fetchOrdersList(){
     return await axios(`${API_ADRESS}/orders`);
@@ -22,7 +25,7 @@ export async function updateOrder(order, URL){
 }
 
 export async function postOrder(order, newURL){
-    return await axios.post('http://localhost:5000/orders/', {
+    return await axios.post( `${API_ADRESS}/orders/`, {
         id: '',
         employeeName: order.employeeName,
         company: order.company,
@@ -32,4 +35,18 @@ export async function postOrder(order, newURL){
         customerId: order.customerId,
         img: newURL,
       });
+}
+
+export async function deleteOrder(id){
+   return await  axios.delete(
+        `${API_ADRESS}/orders/${id}`
+      );
+}
+
+export async function getURLOfImg(logo, customerName){
+    const uploadNewLogoRef = ref(storage, `${customerName}.png`);
+    const snapshot = await uploadBytes(uploadNewLogoRef, logo);
+    console.log(snapshot);
+    const newURL =  await getDownloadURL(uploadNewLogoRef);
+    return newURL
 }

@@ -24,7 +24,7 @@ export default function OrdersStatusCheckbox(props) {
     <div>
       {status.map((st) => (
         <FormControlLabel
-          inline
+          key={st}
           control={<Checkbox />}
           label={st}
           name={st}

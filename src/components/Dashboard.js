@@ -10,7 +10,7 @@ import {
   MenuItem,
 } from '@mui/material/';
 import CustomerView from './CustomerView';
-import { fetchCustomers } from '../Services/CustomerServices';
+import { fetchCustomers } from '../Controllers/CustomerController';
 import CustomerItem from './CustomerItem';
 
 export default function Dashboard() {
@@ -23,8 +23,7 @@ export default function Dashboard() {
   const [customerId, setCustomerId] = useState();
 
   function getCustomerIdByValue(object, value) {
-    console.log(Object.keys(object));
-    var keyNum = Object.keys(object).find(
+    const keyNum = Object.keys(object).find(
       (key) => object[key].customer_name === value
     );
     return customersList[keyNum].id;

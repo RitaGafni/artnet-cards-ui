@@ -25,11 +25,11 @@ const useStyles = makeStyles((theme) =>
 
 export default function OrdersTable(props) {
   const ordersData = props.ordersData;
-  console.log(ordersData);
   const [openEdit, setOpenEdit] = useState(false);
   const [orderToEdit, setOrderToEdit] = useState();
   const [deleteVer, setDeleteVer] = useState(false);
   const [orderToDelete, setOrderToDelete] = useState('');
+  const [editMode, setEditMode] = useState();
 
   const classes = useStyles();
 
@@ -94,6 +94,7 @@ export default function OrdersTable(props) {
   function handleEdit(order) {
     console.log('handle edit order', order);
     setOrderToEdit(order);
+    setEditMode(true);
     setOpenEdit(true);
   }
 
@@ -108,7 +109,7 @@ export default function OrdersTable(props) {
       <OrdersWizard
         selectedOrder={orderToEdit}
         orderToDelete={orderToDelete}
-        editMode={true}
+        editMode={editMode}
         setOpenEdit={(change) => setOpenEdit(change)}
         openEdit={openEdit}
         setDeleteVer={(change) => setDeleteVer(change)}
@@ -146,7 +147,7 @@ export default function OrdersTable(props) {
           rows={ordersData}
           columns={columns}
           pageSize={10}
-          rowsPerPageOptions={[20]}
+          rowsPerPageOptions={[10]}
           className={classes.root}
         />
       </Box>

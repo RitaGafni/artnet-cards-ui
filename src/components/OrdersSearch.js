@@ -47,10 +47,23 @@ export default function OrdersSearch(props) {
     setChecked((prev) => !prev);
   };
 
+  //    {
+  //     display: flex;
+  //     align-items: center;
+  // }
+
   return (
     <div>
-      <Container>
-        <Box>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+
+          flexDirection: 'row-reverse',
+          justifyContent: 'flex-end',
+        }}
+      >
+        <Box sx={{ m: 1, p: 1 }}>
           <Fab
             onClick={handleChangeAdvancedMenu}
             variant='extended'
@@ -81,6 +94,9 @@ export default function OrdersSearch(props) {
         )}
 
         {checked && (
+          <div>
+         
+
           <Box sx={{ height: 160 }}>
             <Box sx={{ display: 'flex' }}>
               <OrdersAdvancedSearch
@@ -88,8 +104,9 @@ export default function OrdersSearch(props) {
               />
             </Box>
           </Box>
+          </div>
         )}
-      </Container>
+      </Box>
     </div>
   );
 }

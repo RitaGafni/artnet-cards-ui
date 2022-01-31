@@ -6,10 +6,11 @@ import OrdersDatePicker from '../components/OrdersDatePicker';
 import OrdersWizard from '../components/OrdersWizard';
 import OrdersStatusCheckbox from './OrdersStatusCheckbox';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
-import { Box, Container, Stack, IconButton } from '@mui/material/';
+import { Box, IconButton } from '@mui/material/';
 import { useAuth } from '../context/AuthContext';
-import { fetchOrdersList } from '../Services/OrdersServices';
+import { fetchOrdersList } from '../Controllers/OrdersController';
+import { filterData } from '../Models/OrdersModel';
+
 
 export default function Orders(props) {
   const [ordersData, setOrdersData] = useState({});
@@ -24,6 +25,8 @@ export default function Orders(props) {
     printed: false,
     shipped: false,
   });
+  const [editMode, setEditMode] = useState();
+  const [selectedOrder, setSelectedOrder] = useState();
 
   useEffect(() => {
     async function fetchOrders() {
@@ -41,94 +44,63 @@ export default function Orders(props) {
     });
   }
 
-  function filterData(rows) {
+  function handleFilterData(rows) {
     if (rows[0]) {
-      // filter by status and custumer id
-      const newData = rows.filter(
-        (row) =>
-          currentUserRole !== 'admin' &&
-          (row.customerId === props.customerId || props.isAdmin) &&
-          Object.keys(statusFilter).some(
-            (status) => statusFilter[status] && row.status === status
-          )
+      return filterData(
+        rows,
+        currentUserRole,
+        props.isAdmin,
+        statusFilter,
+        props.customerId,
+        basicQ,
+        AdvQ,
+        AdvCat
       );
-      if (basicQ) {
-        return search(newData);
-      } else if (AdvQ[0] || AdvQ[1]) {
-        return advSearch(newData);
-      } else return newData;
     }
     return ordersData;
   }
 
-  function advSearch(rows) {
-    return rows.filter(
-      (row) =>
-        (![AdvQ[0]] ||
-          row[AdvCat[0]]
-            .toString()
-            .toLowerCase()
-            .indexOf(AdvQ[0].toLowerCase()) > -1) &&
-        (!AdvQ[1] ||
-          row[AdvCat[1]]
-            .toString()
-            .toLowerCase()
-            .indexOf(AdvQ[1].toLowerCase()) > -1)
-    );
-  }
-
-  function search(rows) {
-    if (rows[0]) {
-      const columns = rows[0] && Object.keys(rows[0]);
-      return rows.filter((row) =>
-        columns.some(
-          (column) =>
-            row[column].toString().toLowerCase().indexOf(basicQ.toLowerCase()) >
-            -1
-        )
-      );
-    }
+  function handleCreateNewOrder() {
+    setEditMode(false);
+    setSelectedOrder({});
+    setOpenEdit(true);
   }
 
   return (
     <div>
-      <Box display='flex'>
+      <Box  sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }} >
+
+          
         <IconButton
           size='large'
           color='primary'
           aria-label='new order'
-          onClick={() => setOpenEdit(true)}
+          onClick={handleCreateNewOrder}
         >
           <AddCircleIcon fontSize='large' />
         </IconButton>
-
-        <IconButton color='primary' aria-label='Search orders' size='large'>
-          <SearchTwoToneIcon />
-        </IconButton>
-        <Container sx={{ '& > :not(style)': { m: 1 } }}>
-          <Stack direction='row' spacing={1}>
+     
             <OrdersStatusCheckbox
               handleStatusChange={(status) => handleStatusChange(status)}
             />
-          </Stack>
-        </Container>
-        <Container>
-          {' '}
+            <Box >
           <OrdersDatePicker />
-        </Container>
+          </Box>
       </Box>
-
       <OrdersWizard
-        selectedOrder={{}}
-        editMode={false}
+        selectedOrder={selectedOrder}
+        editMode={editMode}
         setOpenEdit={(change) => setOpenEdit(change)}
         openEdit={openEdit}
       />
-
       <OrdersSearch />
       <div>
         {ordersData && ordersData[0] && (
-          <OrdersDataTable ordersData={filterData(ordersData)} />
+          <OrdersDataTable ordersData={handleFilterData(ordersData)} />
         )}
       </div>
     </div>

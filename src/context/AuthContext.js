@@ -17,7 +17,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [currentUserRole, setCurrentUserRole] = useState('undefined');
+  const [currentUserRole, setCurrentUserRole] = useState('');
 
   function signup(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -42,15 +42,12 @@ export function AuthProvider({ children }) {
     const  {data}  = await axios(url);
     console.log('fetch role');
     console.log(data);
-    console.log(data[0]);
-    console.log(data[0].role);
-    return data[0].role
+    return data.role
   }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
-      console.log('this is hapenning');
       const role = fetchUserRole(user);
       setCurrentUserRole(role)
       setLoading(false);

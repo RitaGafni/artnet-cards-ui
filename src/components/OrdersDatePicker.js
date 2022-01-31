@@ -12,7 +12,8 @@ export default function OrdersDatePicker() {
   console.log(date);
   return (
     <div>
-      <Box>
+ {/* <Box sx={{mx:1}}>Choose Dates</Box>       */}
+ <Box sx={{display:'flex'}}>
           <DatePicker
             selected={startDate}
             onChange={(date) => setStartDate(date)}
@@ -24,8 +25,9 @@ export default function OrdersDatePicker() {
             showMonthDropdown
             showYearDropdown
             dropdownMode='select'
+            placeholderText="Start Date"
           />
-      
+       <Box sx={{mx:1}}>to</Box>
           <DatePicker
             selected={endDate}
             onChange={(date) => setEndDate(date)}
@@ -38,6 +40,7 @@ export default function OrdersDatePicker() {
             showMonthDropdown
             showYearDropdown
             dropdownMode='select'
+            placeholderText="End Date"
           />
           </Box>
       
