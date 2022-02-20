@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../SearchRedux';
+import { actionCreators } from '../searchRedux';
 
 import {
   TextField,

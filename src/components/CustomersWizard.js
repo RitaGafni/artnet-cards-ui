@@ -17,7 +17,7 @@ import {
   getURLOfLogo,
   PostNewCustomer,
   updateCustomer,
-} from '../Controllers/CustomerController';
+} from '../controllers/CustomerController';
 
 const Input = styled('input')({
   display: 'none',

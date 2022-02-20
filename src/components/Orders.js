@@ -8,9 +8,9 @@ import OrdersStatusCheckbox from './OrdersStatusCheckbox';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, IconButton } from '@mui/material/';
 import { useAuth } from '../context/AuthContext';
-import { fetchOrdersList } from '../Controllers/OrdersController';
-import { filterData } from '../Models/OrdersModel';
-import { getData } from '../Controllers/DBController';
+import { fetchOrdersList } from '../controllers/OrdersController';
+import { filterData } from '../models/OrdersModel';
+import { getData } from '../controllers/DBController';
 
 
 export default function Orders(props) {

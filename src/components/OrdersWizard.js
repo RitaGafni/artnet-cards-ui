@@ -26,7 +26,7 @@ import {
   getURLOfImg,
   postOrder,
   updateOrder,
-} from '../Controllers/OrdersController';
+} from '../controllers/OrdersController';
 // import defaultImg from '../images/defaultImg';
 const Input = styled('input')({
   display: 'none',

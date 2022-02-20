@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {fetchUsers} from '../Controllers/UsersServises'
+import {fetchUsers} from '../controllers/UsersServises'
 import { DataGrid } from '@mui/x-data-grid';
 import { Box } from '@mui/system';
 import IconButton from '@mui/material/IconButton';

@@ -12,7 +12,6 @@ import { AuthProvider } from './context/AuthContext';
 import Dashboard from './components/Dashboard';
 import ForgotPassword from './components/ForgotPassword';
 import PrivetRoute from './components/PrivetRoute';
-import updateProfile from './components/updateProfile';
 import Orders from './components/Orders';
 import { useSelector } from 'react-redux';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -43,7 +42,6 @@ function App() {
               <Route path='/login' component={LoginForm} />
               <Route path='/signup' component={SignupForm} />
               <Route path='/forgot-password' component={ForgotPassword} />
-              <PrivetRoute path='/update-profile' component={updateProfile} />
               <Route path='/customers' component={Customers} />
               <Route path='/orders'>
                 <Orders isAdmin={true} />

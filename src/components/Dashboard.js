@@ -10,7 +10,7 @@ import {
   MenuItem,
 } from '@mui/material/';
 import CustomerView from './CustomerView';
-import { fetchCustomers } from '../Controllers/CustomerController';
+import { fetchCustomers } from '../controllers/CustomerController';
 import CustomerItem from './CustomerItem';
 
 export default function Dashboard() {

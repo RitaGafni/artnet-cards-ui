@@ -4,7 +4,7 @@ import { FormControl, Tab, Tabs, InputGroup } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../SearchRedux';
+import { actionCreators } from '../searchRedux';
 import {
   Container,
   TextField,

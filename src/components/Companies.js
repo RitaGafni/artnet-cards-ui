@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {fetchCompanies} from '../Services/CompaniesServises'
+import {fetchCompanies} from '../services/CompaniesServises'
 import { DataGrid } from '@mui/x-data-grid';
 import { Box } from '@mui/system';
 import IconButton from '@mui/material/IconButton';
