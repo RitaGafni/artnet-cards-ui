@@ -7,16 +7,25 @@ export default function OrdersDatePicker() {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
 
-  console.log(startDate);
+
   const date = JSON.stringify(startDate);
-  console.log(date);
+
+
+function handleStartDateChange(date){
+  console.log('before', date);
+  const startDate = JSON.stringify(date);
+  console.log('after', startDate);
+
+  setStartDate(date)
+}
+
   return (
     <div>
  {/* <Box sx={{mx:1}}>Choose Dates</Box>       */}
  <Box sx={{display:'flex'}}>
           <DatePicker
             selected={startDate}
-            onChange={(date) => setStartDate(date)}
+            onChange={(date) => handleStartDateChange(date)}
             selectsStart
             startDate={startDate}
             endDate={endDate}

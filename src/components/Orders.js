@@ -10,6 +10,7 @@ import { Box, IconButton } from '@mui/material/';
 import { useAuth } from '../context/AuthContext';
 import { fetchOrdersList } from '../Controllers/OrdersController';
 import { filterData } from '../Models/OrdersModel';
+import { getData } from '../Controllers/DBController';
 
 
 export default function Orders(props) {
@@ -27,12 +28,15 @@ export default function Orders(props) {
   });
   const [editMode, setEditMode] = useState();
   const [selectedOrder, setSelectedOrder] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+
 
   useEffect(() => {
     async function fetchOrders() {
       const { data } = await fetchOrdersList();
       setOrdersData(data);
-      console.log(data);
+      console.log(data);      
     }
     fetchOrders();
   }, [setOrdersData]);
@@ -42,6 +46,11 @@ export default function Orders(props) {
       const bool = !prevStatusFilter[status];
       return { ...prevStatusFilter, [status]: bool };
     });
+  }
+
+
+  function CLICK(){
+    getData()
   }
 
   function handleFilterData(rows) {
@@ -68,6 +77,7 @@ export default function Orders(props) {
 
   return (
     <div>
+      <button onClick={CLICK}>rita</button>
       <Box  sx={{
           display: 'flex',
           alignItems: 'center',

@@ -15,13 +15,14 @@ function Customers(props) {
 
   useEffect(() => {
     async function fetchOrdersList() {
-      const { data } = await axios('http://localhost:5000/customers');
+      const { data } = await axios('http://localhost:5000/customers'); //CHANGE IT!!!!!!
       console.log(data);
       setCustomers(data);
     }
     fetchOrdersList();
   }, [setCustomers]);
 
+  
   function filterCustomersData(rows) {
     if (rows[0]) {
       const newData = rows.filter(

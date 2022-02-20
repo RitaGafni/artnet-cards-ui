@@ -95,9 +95,7 @@ export default function OrdersSearch(props) {
 
         {checked && (
           <div>
-         
-
-          <Box sx={{ height: 160 }}>
+                   <Box sx={{ height: 160 }}>
             <Box sx={{ display: 'flex' }}>
               <OrdersAdvancedSearch
                 onChange={(e) => updateAdvSearchQ(e.target.value)}

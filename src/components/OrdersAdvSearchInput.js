@@ -7,7 +7,7 @@ import { actionCreators } from '../SearchRedux';
 import {
   TextField,
   Box,
-  Stack
+
 } from '@mui/material';
 
 import MenuItem from '@mui/material/MenuItem';
@@ -75,25 +75,25 @@ export default function AdvSearchInput(props) {
         </TextField>
       </FormControl>
     </Box>
-    <Box
-            sx={{
-              width: 300,
-              maxWidth: '100%',
-            }}
-          >
-      <TextField
-              fullWidth
-              size='small'
-              id='search orders'
-              label='Search Orders'
-              variant='outlined'
-              value={advSearchQ[props.advNum]}
-              onChange={(e) => {
-                updateAdvSearchQ(props.advNum, e.target.value);
+      <Box
+              sx={{
+                width: 300,
+                maxWidth: '100%',
               }}
-            />
-            </Box>
-             </Box>  
-    </div>
+            >
+        <TextField
+                fullWidth
+                size='small'
+                id='search orders'
+                label='Search Orders'
+                variant='outlined'
+                value={advSearchQ[props.advNum]}
+                onChange={(e) => {
+                  updateAdvSearchQ(props.advNum, e.target.value);
+                }}
+              />
+              </Box>
+              </Box>  
+      </div>
   );
 }
