@@ -10,8 +10,7 @@ import {
   MenuItem,
 } from '@mui/material/';
 import CustomerView from './CustomerView';
-import { fetchCustomers } from '../controllers/CustomerController';
-import CustomerItem from './CustomerItem';
+import { fetchCustomers } from '../services/CustomerViewServices';
 
 export default function Dashboard() {
   const [error, setError] = useState('');
@@ -26,19 +25,19 @@ export default function Dashboard() {
     const keyNum = Object.keys(object).find(
       (key) => object[key].customer_name === value
     );
-    return customersList[keyNum].id;
+    console.log('getCustomerIdByValue', customersList[keyNum]);
+    return customersList[keyNum].customerId;
   }
 
   const handleChange = (event) => {
     setCustumer(event.target.value);
     console.log('this is the', event.target.value);
-    console.log(customersList);
     setCustomerId(getCustomerIdByValue(customersList, event.target.value));
   };
 
   useEffect(() => {
     async function fetchCustumersList() {
-      const { data } = await fetchCustomers();
+      const data = await fetchCustomers();
       setCustomersList(data);
     }
     fetchCustumersList();
@@ -63,7 +62,7 @@ export default function Dashboard() {
       </Box>
       <Box sx={{ minWidth: 120 }}>
         <FormControl sx={{ minWidth: 120 }}>
-          <InputLabel id='choose-customer'>{CustomerItem}</InputLabel>
+          <InputLabel id='choose-customer'>{customer}</InputLabel>
           <Select
             labelId='company'
             id='choose-company'

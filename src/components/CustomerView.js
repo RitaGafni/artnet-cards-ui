@@ -4,8 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import {fetchOrders} from '../controllers/CustomerController'
-import OrdersDataTable from './OrdersDataTable'
+import {fetchOrders} from '../services/CustomerViewServices'
 import Orders from './Orders';
 import Companies from './Companies';
 import Users from './Users';
@@ -49,10 +48,9 @@ export default function CustomerView(props) {
   const [ordersData, setOrdersData] = useState({})
     const [users, setUsers] = useState({})
 
-
     useEffect(() => {
         async function fetchOrdersList() {
-          const { data } = await fetchOrders();
+          const data = await fetchOrders();
           setOrdersData(data);
           console.log(data);
         }
@@ -75,7 +73,7 @@ export default function CustomerView(props) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-    <Orders customerId={props.customerId} />
+        <Orders customerId={props.customerId} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Companies customerId={props.customerId}/>

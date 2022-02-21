@@ -8,9 +8,8 @@ import OrdersStatusCheckbox from './OrdersStatusCheckbox';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, IconButton } from '@mui/material/';
 import { useAuth } from '../context/AuthContext';
-import { fetchOrdersList } from '../controllers/OrdersController';
 import { filterData } from '../models/OrdersModel';
-import { getData } from '../controllers/DBController';
+import { fetchOrdersList } from '../services/OrdersServices';
 
 
 export default function Orders(props) {
@@ -34,9 +33,9 @@ export default function Orders(props) {
 
   useEffect(() => {
     async function fetchOrders() {
-      const { data } = await fetchOrdersList();
-      setOrdersData(data);
-      console.log(data);      
+      const allOrders = await fetchOrdersList(); 
+      setOrdersData(allOrders);
+      console.log(allOrders);      
     }
     fetchOrders();
   }, [setOrdersData]);
@@ -46,11 +45,6 @@ export default function Orders(props) {
       const bool = !prevStatusFilter[status];
       return { ...prevStatusFilter, [status]: bool };
     });
-  }
-
-
-  function CLICK(){
-    getData()
   }
 
   function handleFilterData(rows) {
@@ -77,7 +71,6 @@ export default function Orders(props) {
 
   return (
     <div>
-      <button onClick={CLICK}>rita</button>
       <Box  sx={{
           display: 'flex',
           alignItems: 'center',
@@ -91,15 +84,15 @@ export default function Orders(props) {
           aria-label='new order'
           onClick={handleCreateNewOrder}
         >
-          <AddCircleIcon fontSize='large' />
+        <AddCircleIcon fontSize='large' />
         </IconButton>
      
-            <OrdersStatusCheckbox
+        <OrdersStatusCheckbox
               handleStatusChange={(status) => handleStatusChange(status)}
             />
-            <Box >
+        <Box >
           <OrdersDatePicker />
-          </Box>
+        </Box>
       </Box>
       <OrdersWizard
         selectedOrder={selectedOrder}

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import CustomersSearchBar from './CustomersSearchBar';
 import { Grid, Container, IconButton, Box } from '@mui/material';
 import CustomersWizard from './CustomersWizard';
 import CustomerItem from './CustomerItem';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
+import { fetchCustomers } from '../services/CustomerViewServices';
 
 function Customers(props) {
   const [openEdit, setOpenEdit] = useState(false);
@@ -14,12 +14,11 @@ function Customers(props) {
   const [editMode, setEditMode] = useState();
 
   useEffect(() => {
-    async function fetchOrdersList() {
-      const { data } = await axios('http://localhost:5000/customers'); //CHANGE IT!!!!!!
-      console.log(data);
+    async function fetchCustomersList() {
+      const data = fetchCustomers()
       setCustomers(data);
     }
-    fetchOrdersList();
+    fetchCustomersList();
   }, [setCustomers]);
 
   

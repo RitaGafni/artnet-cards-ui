@@ -1,9 +1,10 @@
-import axios from 'axios'
-const API_ADRESS = 'http://localhost:5000'
-
+import {getDataFromStorage} from './FirebaseStorageServices'
 
 export async function fetchUsers(customerId){
-    return await axios(`${API_ADRESS}/customers/${customerId}/users`);
+    const allUsers =  await getDataFromStorage('users')
+    return allUsers.filter((user) => user.customerId === customerId)
+
+
 
 }
 

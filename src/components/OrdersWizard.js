@@ -7,8 +7,6 @@ import DialogContent from '@mui/material/DialogContent';
 import {
   DialogTitle,
   DialogContentText,
-  Stack,
-  Grid,
   InputLabel,
   Select,
 } from '@mui/material/';
@@ -57,9 +55,6 @@ export default function CustomerWizard(props) {
     img: '',
   });
 
-  console.log('order', order);
-  console.log('props.selectedOrder', props.selectedOrder);
-  console.log('edirmode', props.editMode);
 
   function handleStatusChange(e) {
     setOrder((prevOrder) => {
@@ -89,16 +84,13 @@ export default function CustomerWizard(props) {
     setError('');
     const uploadRef = ref(storage, `${order.customer}.png`);
     try {
-      const snapshot = await uploadBytes(uploadRef, newImg);
-      console.log(snapshot);
+      await uploadBytes(uploadRef, newImg);
       const newURL = await getDownloadURL(uploadRef);
-      const res = postOrder(order, newURL);
-      console.log(res);
+      postOrder(order, newURL);
       props.setOpenEdit(false);
       setPreviewImg(defaultImg);
       setNewImg(null);
-      console.log('reload window!');
-      // window.location.reload(false);
+      window.location.reload(false);
     } catch (err) {
       setError(`couldn't create new customer`);
       console.log(err);
@@ -113,13 +105,12 @@ export default function CustomerWizard(props) {
         imgURLtoUpload = await getURLOfImg(newImg, order.TZ);
         setNewImg(null);
       }
-      const reponse = await updateOrder(order, imgURLtoUpload);
-      console.log(reponse);
+      await updateOrder(order, imgURLtoUpload);
       props.setOpenEdit(false);
       window.location.reload(false);
-    } catch (error) {
+    } catch (err) {
       setError(`couldn't update order`);
-      console.log(error);
+      console.log(err);
     }
   }
 
@@ -137,7 +128,6 @@ export default function CustomerWizard(props) {
     }
 
     if (order.employeeName === '') {
-      console.log('baaaaam');
       setNameVerError('Name Cannot be blank');
       return;
     }
@@ -145,7 +135,6 @@ export default function CustomerWizard(props) {
     if (props.editMode) {
       updateEditedOrder();
     } else {
-      console.log('order', order);
       createNewCustomer();
     }
   }
@@ -169,12 +158,11 @@ export default function CustomerWizard(props) {
 
   async function handleDelete() {
     try {
-      const response = await deleteOrder(props.orderToDelete.id);
-      console.log(response);
+      await deleteOrder(props.orderToDelete.id);
       props.setDeleteVer(false);
       window.location.reload(false);
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -193,12 +181,20 @@ export default function CustomerWizard(props) {
             {props.editMode ? 'Edit Order' : 'New Order'}
           </DialogTitle>
           <DialogContent>
-            <Grid container xs={18} sm={12}>
-              <Stack direction='row'>
+            <Box container xs={18} sm={12}>
+              <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+              }}>
                 <Item>
                   {' '}
-                  <Grid direction='column'>
-                    <Grid item xs={12} sm={6} className='mb-3'>
+                  <Box  sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+              }}>
+                    <Box item xs={12} sm={6} className='mb-3'>
                       <TextField
                         required
                         id='employeeName'
@@ -212,9 +208,9 @@ export default function CustomerWizard(props) {
                         error={nameVerError !== ''}
                         helperText={nameVerError}
                       />
-                    </Grid>
+                    </Box>
 
-                    <Grid item xs={12} sm={6} className='mb-3'>
+                    <Box item xs={12} sm={6} className='mb-3'>
                       <TextField
                         required
                         id='company'
@@ -228,8 +224,8 @@ export default function CustomerWizard(props) {
                         error={nameVerError !== ''}
                         helperText={nameVerError}
                       />
-                    </Grid>
-                    <Grid item xs={12} sm={6} className='mb-3'>
+                    </Box>
+                    <Box item xs={12} sm={6} className='mb-3'>
                       <TextField
                         id='customer'
                         name='customer'
@@ -242,8 +238,8 @@ export default function CustomerWizard(props) {
                         error={nameVerError !== ''}
                         helperText={nameVerError}
                       />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
+                    </Box>
+                    <Box item xs={12} sm={6}>
                       <Box sx={{ minWidth: 120 }} className='mt-4'>
                         <FormControl fullWidth>
                           <InputLabel id='status'>Status</InputLabel>
@@ -261,8 +257,8 @@ export default function CustomerWizard(props) {
                           </Select>
                         </FormControl>
                       </Box>
-                    </Grid>
-                  </Grid>
+                    </Box>
+                  </Box>
                 </Item>
                 <Item>
                   <Box
@@ -296,8 +292,8 @@ export default function CustomerWizard(props) {
                     </label>
                   </Box>
                 </Item>
-              </Stack>
-            </Grid>
+              </Box>
+            </Box>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleSaveChanges}>Save</Button>

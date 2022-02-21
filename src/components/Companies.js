@@ -12,7 +12,8 @@ const [companiesList, setCompaniesList] = useState()
 
     useEffect(() => {
         async function fetchCompaniesList() {
-          const { data } = await fetchCompanies(props.customerId);
+          console.log('this is the cu id', props.customerId);
+          const data  = await fetchCompanies(props.customerId);
           setCompaniesList(data);
           console.log('the data', data);
         }

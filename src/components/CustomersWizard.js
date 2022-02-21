@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import { DialogTitle, DialogContentText, Stack, Alert } from '@mui/material/';
+import { DialogTitle, DialogContentText, Stack, Alert, Container } from '@mui/material/';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import Image from 'mui-image';
@@ -38,7 +38,6 @@ export default function CustomerWizard(props) {
     new_orders: '',
   });
 
-  console.log('props.selectedCustomer', props.selectedCustomer);
 
   useEffect(() => {
     if (props.selectedCustomer) {
@@ -178,7 +177,11 @@ export default function CustomerWizard(props) {
             </DialogTitle>
             {error && <Alert severity='error'>{error}</Alert>}
             <DialogContent>
-              <Stack container='true' direction='column' alignItems='center'>
+              <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+              }} >
                 <TextField
                   required
                   id='customer_name'
@@ -204,7 +207,10 @@ export default function CustomerWizard(props) {
                     fit='contain'
                   />
                 </Box>
-                <Stack container='true' direction='row' alignItems='center'>
+                <Box   sx={{
+                display: 'flex',
+                alignItems: 'center'
+              }}>
                   <label htmlFor='icon-button-file'>
                     <Input
                       accept='image/*'
@@ -221,8 +227,8 @@ export default function CustomerWizard(props) {
                       <PhotoCamera />
                     </IconButton>
                   </label>
-                </Stack>
-              </Stack>
+                </Box>
+              </Box>
             </DialogContent>
             <DialogActions>
               {props.editMode && (

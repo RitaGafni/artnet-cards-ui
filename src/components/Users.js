@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react'
-import {fetchUsers} from '../controllers/UsersServises'
 import { DataGrid } from '@mui/x-data-grid';
 import { Box } from '@mui/system';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import EditIcon from '@mui/icons-material/Edit';
+import { fetchUsers } from '../services/CustomerViewServices';
 
 export default function Companies(props) {
 
@@ -12,7 +12,7 @@ const [usersList, setUsersList] = useState()
 
     useEffect(() => {
         async function fetchUsersList() {
-          const { data } = await fetchUsers(props.customerId);
+          const data = await fetchUsers(props.customerId);
           setUsersList(data);
           console.log('the data', data);
         }

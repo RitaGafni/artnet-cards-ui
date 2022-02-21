@@ -12,13 +12,9 @@ import {
   } from '@mui/material';
   import EditIcon from '@mui/icons-material/Edit';
   import { makeStyles } from '@mui/styles';
-
-
-
+  
 export default function CustomerItem(props) {
-  
-
-  
+   
   const useStyles = makeStyles({
     media: {           // this is the`className` passed to `CardMedia` later
       height: 150,     // as an example I am modifying width and height

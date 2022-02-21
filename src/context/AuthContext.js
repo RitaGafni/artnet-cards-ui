@@ -40,8 +40,6 @@ export function AuthProvider({ children }) {
   async function fetchUserRole(email) {
     const url = 'http://localhost:5000/users?email=' + email;
     const  {data}  = await axios(url);
-    console.log('fetch role');
-    console.log(data);
     return data.role
   }
 

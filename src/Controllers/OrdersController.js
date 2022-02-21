@@ -1,18 +1,9 @@
-import axios from 'axios'
 import { storage } from '../firebase';
 import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
-
-
-const API_ADRESS = 'http://localhost:5000'
-
-export async function fetchOrdersList(){
-    return await axios(`${API_ADRESS}/orders`);
-
-}
+import { addDataToStorage, deleteDataFromStorage, editDataInStorage } from '../services/FirebaseStorageServices';
 
 export async function updateOrder(order, URL){
-    console.log('order to put', order);
-    return  await axios.put(`${API_ADRESS}/orders/${order.id}`, {
+    const newOrder =  {
         id: order.id,
         employeeName: order.employeeName,
         company: order.company,
@@ -21,11 +12,13 @@ export async function updateOrder(order, URL){
         TZ: order.TZ,
         customerId: order.customerId,
         img: URL,
-      });
+      }
+      return await editDataInStorage('orders', order.id, newOrder )
+
 }
 
 export async function postOrder(order, newURL){
-    return await axios.post( `${API_ADRESS}/orders/`, {
+    const newOrder =  {
         id: '',
         employeeName: order.employeeName,
         company: order.company,
@@ -34,13 +27,12 @@ export async function postOrder(order, newURL){
         TZ: order.TZ,
         customerId: order.customerId,
         img: newURL,
-      });
+    }
+      return await addDataToStorage('orders', newOrder)
 }
 
 export async function deleteOrder(id){
-   return await  axios.delete(
-        `${API_ADRESS}/orders/${id}`
-      );
+      return await deleteDataFromStorage('orders', id)
 }
 
 export async function getURLOfImg(logo, customerName){
