@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import OrdersDataTable from '../components/OrdersDataTable';
 import OrdersSearch from '../components/OrdersSearch';
 import { useSelector } from 'react-redux';
-import OrdersDatePicker from '../components/OrdersDatePicker';
-import OrdersWizard from '../components/OrdersWizard';
+// import OrdersDatePicker from '../components/OrdersDatePicker';
+import OrdersWizard from './OrdersWizard';
 import OrdersStatusCheckbox from './OrdersStatusCheckbox';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, IconButton } from '@mui/material/';
 import { useAuth } from '../context/AuthContext';
 import { filterData } from '../models/OrdersModel';
-import { fetchOrdersList } from '../services/OrdersServices';
-
+import { fetchOrders } from '../services/CustomerViewServices';
 
 export default function Orders(props) {
   const [ordersData, setOrdersData] = useState({});
@@ -27,18 +26,17 @@ export default function Orders(props) {
   });
   const [editMode, setEditMode] = useState();
   const [selectedOrder, setSelectedOrder] = useState();
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
 
+  const [reloadOrders, setReloadOrders] = useState(false);
 
   useEffect(() => {
-    async function fetchOrders() {
-      const allOrders = await fetchOrdersList(); 
+    async function fetchOrdersList() {
+      const allOrders = await fetchOrders();
       setOrdersData(allOrders);
-      console.log(allOrders);      
+      setReloadOrders(false);
     }
-    fetchOrders();
-  }, [setOrdersData]);
+    fetchOrdersList();
+  }, [setOrdersData, reloadOrders, setReloadOrders]);
 
   function handleStatusChange(status) {
     setStatusFilter((prevStatusFilter) => {
@@ -70,42 +68,47 @@ export default function Orders(props) {
   }
 
   return (
-    <div>
-      <Box  sx={{
+    <Box>
+      <Box
+        sx={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between'
-        }} >
-
-          
+          justifyContent: 'space-between',
+        }}
+      >
         <IconButton
           size='large'
           color='primary'
           aria-label='new order'
           onClick={handleCreateNewOrder}
         >
-        <AddCircleIcon fontSize='large' />
+          <AddCircleIcon fontSize='large' />
         </IconButton>
-     
+
         <OrdersStatusCheckbox
-              handleStatusChange={(status) => handleStatusChange(status)}
-            />
-        <Box >
+          handleStatusChange={(status) => handleStatusChange(status)}
+        />
+        {/* <Box >
           <OrdersDatePicker />
-        </Box>
+        </Box> */}
       </Box>
       <OrdersWizard
         selectedOrder={selectedOrder}
         editMode={editMode}
         setOpenEdit={(change) => setOpenEdit(change)}
         openEdit={openEdit}
+        customerId={props.customerId}
+        setReloadOrders={(change) => setReloadOrders(change)}
       />
       <OrdersSearch />
       <div>
         {ordersData && ordersData[0] && (
-          <OrdersDataTable ordersData={handleFilterData(ordersData)} />
+          <OrdersDataTable
+            ordersData={handleFilterData(ordersData)}
+            customerId={props.customerId}
+          />
         )}
       </div>
-    </div>
+    </Box>
   );
 }

@@ -1,4 +1,4 @@
-import { Container, TextField, Box } from '@mui/material';
+import { Container, TextField } from '@mui/material';
 import React from 'react';
 
 export default function CustomersSearchBar(props) {

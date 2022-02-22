@@ -1,5 +1,3 @@
-
-
 export function filterCustomersData(rows, searchQ) {
     if (rows[0]) {
       const newData = rows.filter(

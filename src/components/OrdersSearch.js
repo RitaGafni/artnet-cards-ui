@@ -26,31 +26,11 @@ export default function OrdersSearch(props) {
     dispatch
   );
 
-  function tabSelect(k) {
-    switch (k) {
-      case 'basicSearch':
-        updateAdvSearchQ(0, '');
-        updateAdvSearchQ(1, '');
-        break;
-      case 'advancedSearch':
-        updateBasicSearchQ('');
-        break;
-
-      default:
-        break;
-    }
-  }
-
   const [checked, setChecked] = useState(false);
 
   const handleChangeAdvancedMenu = () => {
     setChecked((prev) => !prev);
   };
-
-  //    {
-  //     display: flex;
-  //     align-items: center;
-  // }
 
   return (
     <div>
@@ -95,13 +75,13 @@ export default function OrdersSearch(props) {
 
         {checked && (
           <div>
-                   <Box sx={{ height: 160 }}>
-            <Box sx={{ display: 'flex' }}>
-              <OrdersAdvancedSearch
-                onChange={(e) => updateAdvSearchQ(e.target.value)}
-              />
+            <Box sx={{ height: 160 }}>
+              <Box sx={{ display: 'flex' }}>
+                <OrdersAdvancedSearch
+                  onChange={(e) => updateAdvSearchQ(e.target.value)}
+                />
+              </Box>
             </Box>
-          </Box>
           </div>
         )}
       </Box>

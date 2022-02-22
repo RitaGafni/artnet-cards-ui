@@ -6,7 +6,7 @@ import {
 } from '@firebase/auth';
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { auth } from '../firebase'
+import { auth } from '../firebase';
 
 const AuthContext = React.createContext();
 
@@ -25,7 +25,7 @@ export function AuthProvider({ children }) {
 
   async function login(email, password) {
     const loginRes = await signInWithEmailAndPassword(auth, email, password);
-    setCurrentUserRole(fetchUserRole(email))
+    // setCurrentUserRole(fetchUserRole(email));
     return loginRes;
   }
 
@@ -37,17 +37,17 @@ export function AuthProvider({ children }) {
     return sendPasswordResetEmail(auth, email);
   }
 
-  async function fetchUserRole(email) {
-    const url = 'http://localhost:5000/users?email=' + email;
-    const  {data}  = await axios(url);
-    return data.role
-  }
+  // async function fetchUserRole(email) {
+  //   const url = 'http://localhost:5000/users?email=' + email;
+  //   const  {data}  = await axios(url);
+  //   return data.role
+  // }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
-      const role = fetchUserRole(user);
-      setCurrentUserRole(role)
+      // const role = fetchUserRole(user);
+      // setCurrentUserRole(role)
       setLoading(false);
       return unsubscribe;
     });

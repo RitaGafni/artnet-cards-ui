@@ -1,43 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import {
-  DialogTitle,
-  DialogContentText,
-  InputLabel,
-  Select,
-} from '@mui/material/';
-import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
-import FormControl from '@mui/material/FormControl';
-import Image from 'mui-image';
-import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { styled } from '@mui/material/styles';
 import { storage } from '../firebase';
 import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
 import {
   deleteOrder,
   getURLOfImg,
   postOrder,
   updateOrder,
 } from '../controllers/OrdersController';
-// import defaultImg from '../images/defaultImg';
-const Input = styled('input')({
-  display: 'none',
-});
+import OrderdFields from './OrdersWizardFields';
+import OrderPicture from './OrdersWizardPicture';
+import AddPicture from './OrdersWizardAddPicture';
+import OrdersSubmit from './OrdersWizardSubmit';
 
-const Item = styled(Box)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
-
-export default function CustomerWizard(props) {
+export default function OrdersWizardTRY(props) {
   const defaultImg = '';
   const [nameVerError, setNameVerError] = useState('');
   const [newImg, setNewImg] = useState(null);
@@ -50,20 +32,18 @@ export default function CustomerWizard(props) {
     company: '',
     status: '',
     creationDate: '',
-    customerId: '',
+    customerId: parseInt(props.customerId),
     TZ: '',
     img: '',
   });
-
 
   function handleStatusChange(e) {
     setOrder((prevOrder) => {
       return { ...prevOrder, status: e.target.value };
     });
   }
-
   useEffect(() => {
-    if (props.selectedOrder) {
+    if (props.selectedOrder && props.editMode) {
       setOrder({
         id: props.selectedOrder.id,
         employeeName: props.selectedOrder.employeeName,
@@ -90,6 +70,7 @@ export default function CustomerWizard(props) {
       props.setOpenEdit(false);
       setPreviewImg(defaultImg);
       setNewImg(null);
+      props.setReloadOrders(true);
       window.location.reload(false);
     } catch (err) {
       setError(`couldn't create new customer`);
@@ -107,6 +88,7 @@ export default function CustomerWizard(props) {
       }
       await updateOrder(order, imgURLtoUpload);
       props.setOpenEdit(false);
+      props.setReloadOrders(true);
       window.location.reload(false);
     } catch (err) {
       setError(`couldn't update order`);
@@ -121,6 +103,7 @@ export default function CustomerWizard(props) {
       props.selectedOrder.employeeName === order.employeeName &&
       props.selectedOrder.company === order.company &&
       props.selectedOrder.TZ === order.TZ &&
+      props.selectedOrder.status === order.status &&
       !newImg
     ) {
       props.setOpenEdit(false);
@@ -156,6 +139,13 @@ export default function CustomerWizard(props) {
     });
   }
 
+  function handleSelectCompany(companyName) {
+    setNameVerError('');
+    setOrder((prevOrder) => {
+      return { ...prevOrder, company: companyName };
+    });
+  }
+
   async function handleDelete() {
     try {
       await deleteOrder(props.orderToDelete.id);
@@ -175,156 +165,75 @@ export default function CustomerWizard(props) {
 
   return (
     <div>
-      <div>
-        <Dialog open={props.openEdit} onClose={handleClose}>
-          <DialogTitle>
-            {props.editMode ? 'Edit Order' : 'New Order'}
-          </DialogTitle>
-          <DialogContent>
-            <Box container xs={18} sm={12}>
-              <Box sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center'
-              }}>
-                <Item>
-                  {' '}
-                  <Box  sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center'
-              }}>
-                    <Box item xs={12} sm={6} className='mb-3'>
-                      <TextField
-                        required
-                        id='employeeName'
-                        name='employeeName'
-                        label='Employee Name'
-                        fullWidth
-                        autoComplete='given-name'
-                        variant='standard'
-                        value={order.employeeName}
-                        onChange={handleEditOrder}
-                        error={nameVerError !== ''}
-                        helperText={nameVerError}
-                      />
-                    </Box>
-
-                    <Box item xs={12} sm={6} className='mb-3'>
-                      <TextField
-                        required
-                        id='company'
-                        name='company'
-                        label='Company'
-                        fullWidth
-                        autoComplete='company'
-                        variant='standard'
-                        value={order.company}
-                        onChange={handleEditOrder}
-                        error={nameVerError !== ''}
-                        helperText={nameVerError}
-                      />
-                    </Box>
-                    <Box item xs={12} sm={6} className='mb-3'>
-                      <TextField
-                        id='customer'
-                        name='customer'
-                        label='Customer Id'
-                        fullWidth
-                        autoComplete='customer'
-                        variant='standard'
-                        value={order.TZ}
-                        onChange={handleEditOrder}
-                        error={nameVerError !== ''}
-                        helperText={nameVerError}
-                      />
-                    </Box>
-                    <Box item xs={12} sm={6}>
-                      <Box sx={{ minWidth: 120 }} className='mt-4'>
-                        <FormControl fullWidth>
-                          <InputLabel id='status'>Status</InputLabel>
-                          <Select
-                            labelId='status'
-                            id='demo-simple-select'
-                            value={order.status}
-                            label='status'
-                            onChange={handleStatusChange}
-                          >
-                            <MenuItem value='new'>new</MenuItem>
-                            <MenuItem value='approved'>approved</MenuItem>
-                            <MenuItem value='printed'>printed</MenuItem>
-                            <MenuItem value='shipped'>shipped</MenuItem>
-                          </Select>
-                        </FormControl>
-                      </Box>
-                    </Box>
-                  </Box>
-                </Item>
-                <Item>
-                  <Box
-                    component='span'
-                    sx={{
-                      width: 200,
-                      height: 200,
-                    }}
-                  >
-                    <Image
-                      src={previewImg}
-                      height='100%'
-                      width='100%'
-                      duration={0}
-                      fit='contain'
-                    />
-                    <label htmlFor='icon-button-file'>
-                      <Input
-                        accept='image/*'
-                        id='icon-button-file'
-                        type='file'
-                        onChange={handleImgChange}
-                      />
-                      <IconButton
-                        color='primary'
-                        aria-label='upload picture'
-                        component='span'
-                      >
-                        <PhotoCamera />
-                      </IconButton>
-                    </label>
-                  </Box>
-                </Item>
+      <Dialog open={props.openEdit} onClose={handleClose}>
+        <DialogTitle>{props.editMode ? 'Edit Order' : 'New Order'}</DialogTitle>
+        <DialogContent>
+          <Box
+            id='orders-wizard-window'
+            sx={{ display: 'flex', flexDirection: 'column' }}
+          >
+            <Box id='order-details' sx={{ display: 'flex' }}>
+              <Box id='fields' sx={{ display: 'flex', maxWidth: 200 }}>
+                <OrderdFields
+                  order={order}
+                  selectedOrder={props.selectedOrder}
+                  handleEditOrder={handleEditOrder}
+                  handleSelectCompany={handleSelectCompany}
+                  nameVerError={nameVerError}
+                  handleStatusChange={handleStatusChange}
+                  customerId={props.customerId}
+                />
+              </Box>
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Box
+                  id='picture'
+                  sx={{ display: 'flex', ml: 2, maxWidth: 200, minHeight: 220 }}
+                >
+                  <OrderPicture previewImg={previewImg} />
+                </Box>
+                <Box
+                  id='order-add-pic'
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <AddPicture handleImgChange={handleImgChange} />
+                </Box>
               </Box>
             </Box>
+          </Box>
+        </DialogContent>
+        <Box id='order-submit-buttons' sx={{ display: 'flex' }}>
+          <OrdersSubmit
+            handleSaveChanges={handleSaveChanges}
+            handleClose={handleClose}
+          />
+        </Box>
+      </Dialog>
+      {props.orderToDelete && (
+        <Dialog
+          open={props.deleteVer}
+          onClose={handleClosedeleteVer}
+          aria-labelledby='alert-dialog-title'
+          aria-describedby='alert-dialog-description'
+        >
+          <DialogTitle id='alert-dialog-title'>{'Delete order'}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id='alert-dialog-description'>
+              you are about to Delete {props.orderToDelete.employeeName}, Are
+              you sure?
+            </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleSaveChanges}>Save</Button>
-            <Button onClick={handleClose}>Close</Button>
+            <Button onClick={handleClosedeleteVer}>No</Button>
+            <Button onClick={handleDelete} autoFocus>
+              Yes, Delete
+            </Button>
           </DialogActions>
         </Dialog>
-      </div>
-      <div>
-        {props.orderToDelete && (
-          <Dialog
-            open={props.deleteVer}
-            onClose={handleClosedeleteVer}
-            aria-labelledby='alert-dialog-title'
-            aria-describedby='alert-dialog-description'
-          >
-            <DialogTitle id='alert-dialog-title'>{'Delete order'}</DialogTitle>
-            <DialogContent>
-              <DialogContentText id='alert-dialog-description'>
-                you are about to Delete {props.orderToDelete.employeeName}, Are
-                you sure?
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClosedeleteVer}>No</Button>
-              <Button onClick={handleDelete} autoFocus>
-                Yes, Delete
-              </Button>
-            </DialogActions>
-          </Dialog>
-        )}
-      </div>
+      )}
     </div>
   );
 }

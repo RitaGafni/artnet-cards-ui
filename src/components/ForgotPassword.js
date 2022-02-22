@@ -9,7 +9,7 @@ function ForgotPassword() {
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
+  // const history = useHistory();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -18,7 +18,6 @@ function ForgotPassword() {
       setMessage('');
       setError('');
       setLoading(true);
-      console.log(emailRef.current.value);
       await resetPassword(emailRef.current.value);
       setMessage('Check your inbox for further instructions');
     } catch {

@@ -5,6 +5,7 @@ import CustomersWizard from './CustomersWizard';
 import CustomerItem from './CustomerItem';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 import { fetchCustomers } from '../services/CustomerViewServices';
+import NavBar from './NavBar';
 
 function Customers(props) {
   const [openEdit, setOpenEdit] = useState(false);
@@ -15,13 +16,12 @@ function Customers(props) {
 
   useEffect(() => {
     async function fetchCustomersList() {
-      const data = fetchCustomers()
+      const data = await fetchCustomers();
       setCustomers(data);
     }
     fetchCustomersList();
   }, [setCustomers]);
 
-  
   function filterCustomersData(rows) {
     if (rows[0]) {
       const newData = rows.filter(
@@ -45,6 +45,7 @@ function Customers(props) {
     setEditMode(false);
     setSelectedCustomer({
       id: '',
+      customerId: '',
       customer_name: '',
       logo: '',
       new_orders: 0,
@@ -54,44 +55,64 @@ function Customers(props) {
 
   return (
     <div>
-      <Box>
-        <CustomersWizard
-          selectedCustomer={selectedCustomer}
-          setOpenEdit={(change) => setOpenEdit(change)}
-          openEdit={openEdit}
-          editMode={editMode}
-        />
+      <NavBar />
+      <div
+        style={{
+          position: 'relative',
+          display: 'flex',
+          justifyContent: 'center',
+          height: '80%',
+          width: '100%',
+        }}
+      >
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: 1200,
+            mt: 4,
+            bgcolor: '#F4F9F9',
+            borderRadius: 4,
+            p: 2,
+            pb: 4,
+          }}
+        >
+          <CustomersWizard
+            selectedCustomer={selectedCustomer}
+            setOpenEdit={(change) => setOpenEdit(change)}
+            openEdit={openEdit}
+            editMode={editMode}
+          />
+          <Container>
+            <Box display='flex'>
+              <IconButton
+                size='large'
+                color='primary'
+                aria-label='edit customer'
+                component='span'
+                onClick={handleAddCustomer}
+              >
+                <AddCircleTwoToneIcon fontSize='large' />
+              </IconButton>
 
-        <Container>
-          <Box display='flex'>
-            <IconButton
-              size='large'
-              color='primary'
-              aria-label='edit customer'
-              component='span'
-              onClick={handleAddCustomer}
-            >
-              <AddCircleTwoToneIcon fontSize='large' />
-            </IconButton>
-
-            <CustomersSearchBar setSearchQ={(q) => setSearchQ(q)} />
-          </Box>
-        </Container>
-        <Container className='mt-4'>
-          <Grid container spacing={3}>
-            {customers &&
-              customers[0] &&
-              filterCustomersData(customers).map((selectedCustomer) => (
-                <Grid key={selectedCustomer.id} item id={selectedCustomer.id}>
-                  <CustomerItem
-                    selectedCustomer={selectedCustomer}
-                    handleEdit={(customer) => handleEdit(customer)}
-                  />
-                </Grid>
-              ))}
-          </Grid>
-        </Container>
-      </Box>
+              <CustomersSearchBar setSearchQ={(q) => setSearchQ(q)} />
+            </Box>
+          </Container>
+          <Container className='mt-4'>
+            <Grid container spacing={3}>
+              {customers &&
+                customers[0] &&
+                filterCustomersData(customers).map((selectedCustomer) => (
+                  <Grid key={selectedCustomer.id} item id={selectedCustomer.id}>
+                    <CustomerItem
+                      selectedCustomer={selectedCustomer}
+                      handleEdit={(customer) => handleEdit(customer)}
+                    />
+                  </Grid>
+                ))}
+            </Grid>
+          </Container>
+        </Box>
+      </div>
     </div>
   );
 }

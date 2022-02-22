@@ -1,86 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { Link, useHistory } from 'react-router-dom';
-import {
-  Button,
-  FormControl,
-  Box,
-  InputLabel,
-  Select,
-  MenuItem,
-} from '@mui/material/';
+import { useHistory } from 'react-router-dom';
 import CustomerView from './CustomerView';
-import { fetchCustomers } from '../services/CustomerViewServices';
 
 export default function Dashboard() {
-  const [error, setError] = useState('');
-  const { currentUser, logout } = useAuth();
+  const [customerId, setCustomerId] = useState(null);
   const history = useHistory();
-  const [customersList, setCustomersList] = useState('');
-
-  const [customer, setCustumer] = useState('');
-  const [customerId, setCustomerId] = useState();
-
-  function getCustomerIdByValue(object, value) {
-    const keyNum = Object.keys(object).find(
-      (key) => object[key].customer_name === value
-    );
-    console.log('getCustomerIdByValue', customersList[keyNum]);
-    return customersList[keyNum].customerId;
-  }
-
-  const handleChange = (event) => {
-    setCustumer(event.target.value);
-    console.log('this is the', event.target.value);
-    setCustomerId(getCustomerIdByValue(customersList, event.target.value));
-  };
 
   useEffect(() => {
-    async function fetchCustumersList() {
-      const data = await fetchCustomers();
-      setCustomersList(data);
-    }
-    fetchCustumersList();
-  }, [setCustomersList]);
-
-  async function handleLogout() {
-    setError('');
-    try {
-      await logout();
-      history.push('/login');
-    } catch {
-      setError('Failed to log out');
-    }
-  }
+    const id = history.location.search.substring(1);
+    setCustomerId(id);
+  }, [history.location.search]);
 
   return (
-    <div>
-      <Box>
-        <Button href='login' variant='link' onClick={handleLogout}>
-          Log Out
-        </Button>
-      </Box>
-      <Box sx={{ minWidth: 120 }}>
-        <FormControl sx={{ minWidth: 120 }}>
-          <InputLabel id='choose-customer'>{customer}</InputLabel>
-          <Select
-            labelId='company'
-            id='choose-company'
-            value={customer}
-            label='company'
-            onChange={handleChange}
-          >
-            {customersList &&
-              customersList[0] &&
-              customersList.map((item) => (
-                <MenuItem value={item.customer_name}>
-                  {item.customer_name}
-                </MenuItem>
-              ))}
-          </Select>
-        </FormControl>
-      </Box>
-      <CustomerView customerId={customerId} />
+    <div
+      style={{
+        textAlign: '-webkit-center',
+      }}
+    >
+      {customerId && <CustomerView customerId={customerId} />}
     </div>
   );
 }

@@ -1,24 +1,14 @@
 import * as React from 'react';
-import { Button, Alert } from '@mui/material/';
+import { Button, Alert, Paper } from '@mui/material/';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Image from 'mui-image';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
-
-const theme = createTheme({
-  palette: {
-    primary: { main: '#ffc107' },
-  },
-});
 
 function Signup() {
   const { signup, currentUser } = useAuth();
@@ -30,7 +20,6 @@ function Signup() {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
 
-    console.log(data);
     if (data.get('password') !== data.get('confirmPassword')) {
       return setError('Passwords do not match');
     }
@@ -39,10 +28,9 @@ function Signup() {
       setError('');
       setLoading(true);
       console.log(e);
-      console.log('email!', data.get('email'));
       await signup(data.get('email'), data.get('password'));
 
-      history.push('/');
+      history.push('/customers');
     } catch (e) {
       setError('Failed to create account');
       console.log(e);
@@ -53,21 +41,24 @@ function Signup() {
 
   return (
     <div>
-      <ThemeProvider theme={theme}>
-        <Container component='main' maxWidth='xs'>
+      <Container component='main' maxWidth='xs'>
+        <Paper elevation='4' sx={{ marginTop: 6, p: 2 }}>
           <CssBaseline />
           <Box
             sx={{
-              marginTop: 8,
+              marginTop: 3,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
             }}
           >
-            <Image src='./img/ArtnetLogo.png' duration={500} className='mb-4' />
-            <Typography component='h1' variant='h5'>
-              Welcome! Please sign up:
-            </Typography>
+            <Image
+              src='./img/ArtnetLogo.png'
+              duration={500}
+              className='mb-4'
+              height='60%'
+              width='60%'
+            />
             {error && <Alert severity='error'>{error}</Alert>}
             <Box
               component='form'
@@ -115,20 +106,16 @@ function Signup() {
               >
                 Sign Up
               </Button>
+
               <Grid container>
-                <Grid item xs>
-                  <Link href='#' variant='body2'>
-                    Forgot password?
-                  </Link>
-                </Grid>
                 <Grid item>
-                  <Link to='/signup'>Already have an account? Log In</Link>
+                  <Link to='/login'>Already have an account? Log In</Link>
                 </Grid>
               </Grid>
             </Box>
           </Box>
-        </Container>
-      </ThemeProvider>
+        </Paper>
+      </Container>
     </div>
   );
 }

@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import { DialogTitle, DialogContentText, Stack, Alert, Container } from '@mui/material/';
+import { DialogTitle, DialogContentText, Alert } from '@mui/material/';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import Image from 'mui-image';
@@ -38,7 +38,6 @@ export default function CustomerWizard(props) {
     new_orders: '',
   });
 
-
   useEffect(() => {
     if (props.selectedCustomer) {
       setCustomer({
@@ -58,8 +57,7 @@ export default function CustomerWizard(props) {
     try {
       setIsLoading(true);
       const newURL = await getURLOfLogo(newLogo, customer.customer_name);
-      const response = await PostNewCustomer(customer.customer_name, newURL);
-      console.log(response);
+      await PostNewCustomer(customer.customer_name, newURL);
       props.setOpenEdit(false);
       setPreviewLogo(defaultImage);
       setNewLogo(null);
@@ -79,11 +77,9 @@ export default function CustomerWizard(props) {
       let logoURLToUpload = customer.logo;
       if (newLogo) {
         logoURLToUpload = await getURLOfLogo(newLogo, customer.customer_name);
-        console.log('the logo', logoURLToUpload);
         setNewLogo(null);
       }
-      const response = await updateCustomer(customer, logoURLToUpload);
-      console.log('edit respose', response);
+      await updateCustomer(customer, logoURLToUpload);
       props.setOpenEdit(false);
       setIsLoading(false);
 
@@ -100,8 +96,7 @@ export default function CustomerWizard(props) {
     setError('');
     try {
       setIsLoading(true);
-      const response = deleteCustomer(customer.id);
-      console.log(response);
+      await deleteCustomer(customer.id);
       setDeleteVer(false);
       props.setOpenEdit(false);
       setIsLoading(false);
@@ -177,11 +172,13 @@ export default function CustomerWizard(props) {
             </DialogTitle>
             {error && <Alert severity='error'>{error}</Alert>}
             <DialogContent>
-              <Box sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center'
-              }} >
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
                 <TextField
                   required
                   id='customer_name'
@@ -207,10 +204,12 @@ export default function CustomerWizard(props) {
                     fit='contain'
                   />
                 </Box>
-                <Box   sx={{
-                display: 'flex',
-                alignItems: 'center'
-              }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
                   <label htmlFor='icon-button-file'>
                     <Input
                       accept='image/*'

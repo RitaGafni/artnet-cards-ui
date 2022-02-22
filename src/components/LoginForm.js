@@ -25,14 +25,11 @@ export default function Login() {
     try {
       setError('');
       setLoading(true);
-      console.log(e);
-      console.log('email!', data.get('email'));
       await login(data.get('email'), data.get('password'));
 
-      history.push('/');
+      history.push('/customers');
     } catch (e) {
       setError('Failed to sign in');
-      console.log(e);
     }
 
     setLoading(false);
@@ -100,10 +97,8 @@ export default function Login() {
                 Log In
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href='#' variant='body2'>
-                    Forgot password?
-                  </Link>
+                <Grid item>
+                  <Link to='/signup'>Don't have an accout? Sign Up</Link>
                 </Grid>
               </Grid>
             </Box>

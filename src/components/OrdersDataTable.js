@@ -34,8 +34,12 @@ export default function OrdersTable(props) {
   const classes = useStyles();
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 80 },
-    { field: 'employeeName', headerName: 'Employee Name', width: 160 },
+    { field: 'id', headerName: 'ID', width: 120 },
+    {
+      field: 'employeeName',
+      headerName: 'Employee Name',
+      width: 160,
+    },
     { field: 'company', headerName: 'Company', width: 160 },
     {
       field: 'status',
@@ -56,9 +60,8 @@ export default function OrdersTable(props) {
     },
     {
       field: 'TZ',
-      headerName: 'Customer Id',
-      type: 'number',
-      width: 120,
+      headerName: 'Employee ID',
+      width: 140,
     },
     {
       field: 'actions',
@@ -114,12 +117,13 @@ export default function OrdersTable(props) {
         openEdit={openEdit}
         setDeleteVer={(change) => setDeleteVer(change)}
         deleteVer={deleteVer}
+        customerId={props.customerId}
       />
       <Box
         style={{ height: 600, width: '100%' }}
         sx={{
           '& .MuiDataGrid-row': {
-            '&:nth-child(2n)': {
+            '&:nth-child(even)': {
               backgroundColor: '#F3F1F5',
             },
             '&:hover': {
@@ -142,6 +146,7 @@ export default function OrdersTable(props) {
         }}
       >
         <DataGrid
+          sx={{ bgcolor: '#F9F9F9' }}
           checkboxSelection
           disableSelectionOnClick
           rows={ordersData}

@@ -20,7 +20,7 @@ function handleStartDateChange(date){
 }
 
   return (
-    <div>
+    <Box>
  {/* <Box sx={{mx:1}}>Choose Dates</Box>       */}
  <Box sx={{display:'flex'}}>
           <DatePicker
@@ -53,6 +53,6 @@ function handleStartDateChange(date){
           />
           </Box>
       
-    </div>
+    </Box>
   );
 }

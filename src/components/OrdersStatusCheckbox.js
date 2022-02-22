@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Checkbox from '@mui/material/Checkbox';
-import { FormControlLabel } from '@mui/material';
+import { FormControlLabel, Box } from '@mui/material';
 
 export default function OrdersStatusCheckbox(props) {
   const status = ['new', 'approved', 'printed', 'shipped'];
@@ -21,21 +21,20 @@ export default function OrdersStatusCheckbox(props) {
   });
 
   return (
-    <>
+    <Box>
       {status.map((st) => (
         <FormControlLabel
           key={st}
-          control={<Checkbox/>}
+          control={<Checkbox />}
           label={st}
           name={st}
           id={st}
           onChange={(e) => {
-            console.log(e.target.name);
             handleChange(e.target.name);
           }}
           checked={statusFilter[st]}
         />
       ))}
-    </>
+    </Box>
   );
 }
