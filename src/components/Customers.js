@@ -14,24 +14,18 @@ function Customers(props) {
   const [selectedCustomer, setSelectedCustomer] = useState();
   const [editMode, setEditMode] = useState();
 
-  const [isCustumersUpdatd, setIsCustumersUpdatd] = useState(false);
+  const [isCustumersUpdatd, setIsCustumersUpdatd] = useState(true);
 
   useEffect(() => {
     async function fetchCustomersList() {
       const data = await fetchCustomers();
       setCustomers(data);
+      setIsCustumersUpdatd(false);
     }
-    fetchCustomersList();
-  }, [setCustomers, setIsCustumersUpdatd]);
-
-  useMemo(async () => {
-    console.log('use mome');
-    const data = await fetchCustomers();
-    setCustomers(data);
-    setIsCustumersUpdatd(false);
-  }, [setIsCustumersUpdatd]);
-
-  console.log(isCustumersUpdatd);
+    if (isCustumersUpdatd) {
+      fetchCustomersList();
+    }
+  }, [isCustumersUpdatd, setCustomers]);
 
   function filterCustomersData(rows) {
     if (rows[0]) {

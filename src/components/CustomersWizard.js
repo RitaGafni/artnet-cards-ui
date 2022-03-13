@@ -34,6 +34,7 @@ export default function CustomerWizard(props) {
   const [customer, setCustomer] = useState({
     id: '',
     customer_name: '',
+    customerId: '',
     logo: '',
     new_orders: '',
   });
@@ -42,6 +43,7 @@ export default function CustomerWizard(props) {
     if (props.selectedCustomer) {
       setCustomer({
         id: props.selectedCustomer.id,
+        customerId: props.selectedCustomer.customerId,
         customer_name: props.selectedCustomer.customer_name,
         logo: props.selectedCustomer.logo,
         new_orders: props.selectedCustomer.new_orders,
@@ -63,9 +65,6 @@ export default function CustomerWizard(props) {
       setNewLogo(null);
       setIsLoading(false);
       props.setIsCustumersUpdatd(true);
-      console.log('change to true');
-
-      window.location.reload(false);
     } catch (error) {
       setIsLoading(false);
       setError(`couldn't create new customer`);
@@ -86,8 +85,6 @@ export default function CustomerWizard(props) {
       props.setOpenEdit(false);
       setIsLoading(false);
       props.setIsCustumersUpdatd(true);
-      console.log('change to true');
-      window.location.reload(false);
     } catch (error) {
       setIsLoading(false);
 
@@ -105,8 +102,7 @@ export default function CustomerWizard(props) {
       props.setOpenEdit(false);
       setIsLoading(false);
       props.setIsCustumersUpdatd(true);
-      console.log('change to true');
-      window.location.reload(false);
+      props.setIsCustumersUpdatd(true);
     } catch (error) {
       setIsLoading(false);
       setError('couldnt delete customer');
