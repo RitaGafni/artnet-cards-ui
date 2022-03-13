@@ -10,8 +10,6 @@ import { fetchCompanies } from '../services/CustomerViewServices';
 export default function OrderdFields(props) {
   const [companiesList, setCompaniesList] = useState();
 
-  console.log(props.customerId);
-
   useEffect(() => {
     async function fetchCompaniesList(id) {
       const data = await fetchCompanies(id);
@@ -32,6 +30,7 @@ export default function OrderdFields(props) {
       >
         <Box>
           <TextField
+            sx={{ mb: 1 }}
             required
             id='employeeName'
             name='employeeName'
@@ -41,11 +40,12 @@ export default function OrderdFields(props) {
             variant='standard'
             value={props.order.employeeName}
             onChange={props.handleEditOrder}
-            error={props.nameVerError !== ''}
-            helperText={props.nameVerError}
+            error={props.employeeNameValidation !== ''}
+            helperText={props.employeeNameValidation}
           />
 
           <TextField
+            sx={{ mb: 1 }}
             id='customer'
             name='TZ'
             label='Employee Identification'
@@ -54,10 +54,13 @@ export default function OrderdFields(props) {
             variant='standard'
             value={props.order.TZ}
             onChange={props.handleEditOrder}
+            error={props.employeeIdValidation !== ''}
+            helperText={props.employeeIdValidation}
           />
         </Box>
         <Box sx={{ mt: 1 }}>
           <Autocomplete
+            sx={{ mb: 1 }}
             id='select-company'
             value={props.order.company}
             name='company'
@@ -67,7 +70,14 @@ export default function OrderdFields(props) {
                 {companiesList.companyName}
               </Box>
             )}
-            renderInput={(params) => <TextField {...params} label='Company' />}
+            renderInput={(params) => (
+              <TextField
+                error={props.companyValidation !== ''}
+                helperText={props.companyValidation}
+                {...params}
+                label='Company'
+              />
+            )}
             onChange={(e, companiesList) =>
               props.handleSelectCompany(companiesList.companyName)
             }

@@ -25,7 +25,7 @@ const Input = styled('input')({
 
 export default function CustomerWizard(props) {
   const [deleteVer, setDeleteVer] = useState(false);
-  const [nameVerError, setNameVerError] = useState('');
+  const [customerNameValidation, setCustomerNameValidation] = useState('');
   const [newLogo, setNewLogo] = useState(null);
   const [previewLogo, setPreviewLogo] = useState(defaultImage);
   const [error, setError] = useState('');
@@ -123,7 +123,7 @@ export default function CustomerWizard(props) {
     }
 
     if (customer.customer_name === '') {
-      setNameVerError('Name Cannot be blank');
+      setCustomerNameValidation('Name Cannot be blank');
       return;
     }
 
@@ -136,7 +136,7 @@ export default function CustomerWizard(props) {
 
   const handleCloseCustomersWizard = () => {
     props.setOpenEdit(false);
-    setNameVerError('');
+    setCustomerNameValidation('');
     setPreviewLogo(defaultImage);
   };
 
@@ -145,7 +145,7 @@ export default function CustomerWizard(props) {
   };
 
   function editCustomerName(e) {
-    setNameVerError('');
+    setCustomerNameValidation('');
     setCustomer((prevCustomers) => {
       return { ...prevCustomers, [e.target.name]: e.target.value };
     });
@@ -191,8 +191,8 @@ export default function CustomerWizard(props) {
                   variant='standard'
                   value={customer.customer_name}
                   onChange={editCustomerName}
-                  error={nameVerError !== ''}
-                  helperText={nameVerError}
+                  error={customerNameValidation !== ''}
+                  helperText={customerNameValidation}
                 />
 
                 <FormControl fullWidth></FormControl>

@@ -27,7 +27,7 @@ export default function Orders(props) {
   const [editMode, setEditMode] = useState();
   const [selectedOrder, setSelectedOrder] = useState();
 
-  const [reloadOrders, setReloadOrders] = useState(false);
+  const [reloadOrders, setReloadOrders] = useState(true);
 
   useEffect(() => {
     async function fetchOrdersList() {
@@ -35,8 +35,10 @@ export default function Orders(props) {
       setOrdersData(allOrders);
       setReloadOrders(false);
     }
-    fetchOrdersList();
-  }, [setOrdersData, setReloadOrders]);
+    if (reloadOrders) {
+      fetchOrdersList();
+    }
+  }, [setOrdersData, reloadOrders]);
 
   function handleStatusChange(status) {
     setStatusFilter((prevStatusFilter) => {
@@ -62,8 +64,17 @@ export default function Orders(props) {
   }
 
   function handleCreateNewOrder() {
+    setSelectedOrder({
+      id: '',
+      employeeName: '',
+      company: '',
+      status: '',
+      creationDate: '',
+      customerId: parseInt(props.customerId),
+      TZ: '',
+      img: '',
+    });
     setEditMode(false);
-    setSelectedOrder({});
     setOpenEdit(true);
   }
 
@@ -85,9 +96,7 @@ export default function Orders(props) {
           <AddCircleIcon fontSize='large' />
         </IconButton>
 
-        <OrdersStatusCheckbox
-          handleStatusChange={(status) => handleStatusChange(status)}
-        />
+        <OrdersStatusCheckbox handleStatusChange={handleStatusChange} />
         {/* <Box >
           <OrdersDatePicker />
         </Box> */}
@@ -95,10 +104,10 @@ export default function Orders(props) {
       <OrdersWizard
         selectedOrder={selectedOrder}
         editMode={editMode}
-        setOpenEdit={(change) => setOpenEdit(change)}
+        setOpenEdit={setOpenEdit}
         openEdit={openEdit}
         customerId={props.customerId}
-        setReloadOrders={(change) => setReloadOrders(change)}
+        setReloadOrders={setReloadOrders}
       />
       <OrdersSearch />
       <div>
@@ -106,6 +115,7 @@ export default function Orders(props) {
           <OrdersDataTable
             ordersData={handleFilterData(ordersData)}
             customerId={props.customerId}
+            setReloadOrders={setReloadOrders}
           />
         )}
       </div>

@@ -9,8 +9,6 @@ import { fetchUsers } from '../services/CustomerViewServices';
 export default function Companies(props) {
   const [usersList, setUsersList] = useState();
 
-  console.log('inside users', props.customerId);
-
   useEffect(() => {
     async function fetchUsersList() {
       const data = await fetchUsers(props.customerId);

@@ -1,8 +1,7 @@
-import React from 'react'
+import React from 'react';
 import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera'
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { styled } from '@mui/material/styles';
-
 
 const Input = styled('input')({
   display: 'none',
@@ -22,10 +21,11 @@ export default function AddPicture(props) {
           color='primary'
           aria-label='upload picture'
           component='span'
+          disabled={props.isLoading}
         >
           <PhotoCamera />
         </IconButton>
       </label>
     </div>
-  )
+  );
 }

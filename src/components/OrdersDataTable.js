@@ -95,14 +95,12 @@ export default function OrdersTable(props) {
   ];
 
   function handleEdit(order) {
-    console.log('handle edit order', order);
     setOrderToEdit(order);
     setEditMode(true);
     setOpenEdit(true);
   }
 
   function handleDelete(order) {
-    console.log('handle delete order', order);
     setOrderToDelete(order);
     setDeleteVer(true);
   }
@@ -113,11 +111,12 @@ export default function OrdersTable(props) {
         selectedOrder={orderToEdit}
         orderToDelete={orderToDelete}
         editMode={editMode}
-        setOpenEdit={(change) => setOpenEdit(change)}
+        setOpenEdit={setOpenEdit}
         openEdit={openEdit}
-        setDeleteVer={(change) => setDeleteVer(change)}
+        setDeleteVer={setDeleteVer}
         deleteVer={deleteVer}
         customerId={props.customerId}
+        setReloadOrders={props.setReloadOrders}
       />
       <Box
         style={{ height: 600, width: '100%' }}

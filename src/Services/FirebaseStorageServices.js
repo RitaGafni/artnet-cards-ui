@@ -23,7 +23,6 @@ export const getDataFromStorage = async (collectionName) => {
 };
 
 export const addDataToStorage = async (collectionName, newData) => {
-  console.log('new data to add', newData);
   const colRef = collection(db, collectionName);
   try {
     await addDoc(colRef, newData);
@@ -35,7 +34,6 @@ export const addDataToStorage = async (collectionName, newData) => {
 export const editDataInStorage = async (collectionName, docId, newData) => {
   const docRef = doc(db, collectionName, docId);
   try {
-    console.log(newData);
     await setDoc(docRef, newData);
   } catch (error) {
     console.log(error.message);

@@ -6,8 +6,12 @@ export default function OrdersSubmit(props) {
   return (
     <div>
       <DialogActions>
-        <Button onClick={props.handleSaveChanges}>Save</Button>
-        <Button onClick={props.handleClose}>Close</Button>
+        <Button disabled={props.isLoading} onClick={props.handleSaveChanges}>
+          Save
+        </Button>
+        <Button disabled={props.isLoading} onClick={props.handleClose}>
+          Close
+        </Button>
       </DialogActions>
     </div>
   );

@@ -8,6 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
+import Alert from '@mui/material/Alert';
 import {
   deleteOrder,
   getURLOfImg,
@@ -21,9 +22,12 @@ import OrdersSubmit from './OrdersWizardSubmit';
 
 export default function OrdersWizardTRY(props) {
   const defaultImg = '';
-  const [nameVerError, setNameVerError] = useState('');
+  const [employeeNameValidation, setEmployeeNameValidation] = useState('');
+  const [employeeIdValidation, setEmployeeIdValidation] = useState('');
+  const [companyValidation, setCompanyValidation] = useState('');
   const [newImg, setNewImg] = useState(null);
   const [previewImg, setPreviewImg] = useState(defaultImg);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
   const [order, setOrder] = useState({
@@ -43,7 +47,7 @@ export default function OrdersWizardTRY(props) {
     });
   }
   useEffect(() => {
-    if (props.selectedOrder && props.editMode) {
+    if (props.selectedOrder) {
       setOrder({
         id: props.selectedOrder.id,
         employeeName: props.selectedOrder.employeeName,
@@ -55,24 +59,24 @@ export default function OrdersWizardTRY(props) {
         img: props.selectedOrder.img,
       });
       setPreviewImg(props.selectedOrder.img);
-    } else {
-      setPreviewImg(defaultImg);
     }
-  }, [props.editMode, props.selectedOrder, props.setOpenEdit]);
+  }, [props.selectedOrder, props.setOpenEdit]);
 
   async function createNewCustomer() {
     setError('');
     const uploadRef = ref(storage, `${order.customer}.png`);
     try {
+      setIsLoading(true);
       await uploadBytes(uploadRef, newImg);
       const newURL = await getDownloadURL(uploadRef);
       postOrder(order, newURL);
+      setIsLoading(false);
       props.setOpenEdit(false);
       setPreviewImg(defaultImg);
       setNewImg(null);
       props.setReloadOrders(true);
-      // window.location.reload(false);
     } catch (err) {
+      setIsLoading(false);
       setError(`couldn't create new customer`);
       console.log(err);
     }
@@ -81,16 +85,18 @@ export default function OrdersWizardTRY(props) {
   async function updateEditedOrder() {
     setError('');
     try {
+      setIsLoading(true);
       let imgURLtoUpload = order.img;
       if (newImg) {
         imgURLtoUpload = await getURLOfImg(newImg, order.TZ);
         setNewImg(null);
       }
       await updateOrder(order, imgURLtoUpload);
+      setIsLoading(false);
       props.setOpenEdit(false);
       props.setReloadOrders(true);
-      window.location.reload(false);
     } catch (err) {
+      setIsLoading(false);
       setError(`couldn't update order`);
       console.log(err);
     }
@@ -110,8 +116,7 @@ export default function OrdersWizardTRY(props) {
       return;
     }
 
-    if (order.employeeName === '') {
-      setNameVerError('Name Cannot be blank');
+    if (!isOrderValid()) {
       return;
     }
 
@@ -122,9 +127,38 @@ export default function OrdersWizardTRY(props) {
     }
   }
 
+  const resetValidation = () => {
+    setEmployeeNameValidation('');
+    setEmployeeIdValidation('');
+    setCompanyValidation('');
+  };
+
+  const isOrderValid = () => {
+    let isValid = 0;
+    if (order.employeeName === '') {
+      setEmployeeNameValidation('Name Cannot be blank');
+      isValid++;
+    }
+    if (isNaN(+order.TZ)) {
+      setEmployeeIdValidation('Employee ID must be a number');
+      isValid++;
+    }
+    if (order.company === '') {
+      setCompanyValidation('Company Cannot be blank');
+      isValid++;
+    }
+    if (order.TZ === '') {
+      setEmployeeIdValidation('Employee ID Cannot be blank');
+      isValid++;
+    }
+    if (isValid) {
+      return false;
+    } else return true;
+  };
+
   const handleClose = () => {
+    resetValidation();
     props.setOpenEdit(false);
-    setNameVerError('');
     setPreviewImg(defaultImg);
   };
 
@@ -133,14 +167,14 @@ export default function OrdersWizardTRY(props) {
   };
 
   function handleEditOrder(e) {
-    setNameVerError('');
+    resetValidation();
     setOrder((prevOrder) => {
       return { ...prevOrder, [e.target.name]: e.target.value };
     });
   }
 
   function handleSelectCompany(companyName) {
-    setNameVerError('');
+    resetValidation();
     setOrder((prevOrder) => {
       return { ...prevOrder, company: companyName };
     });
@@ -150,7 +184,7 @@ export default function OrdersWizardTRY(props) {
     try {
       await deleteOrder(props.orderToDelete.id);
       props.setDeleteVer(false);
-      window.location.reload(false);
+      props.setReloadOrders(true);
     } catch (err) {
       console.log(err);
     }
@@ -167,6 +201,7 @@ export default function OrdersWizardTRY(props) {
     <div>
       <Dialog open={props.openEdit} onClose={handleClose}>
         <DialogTitle>{props.editMode ? 'Edit Order' : 'New Order'}</DialogTitle>
+        {error && <Alert severity='error'>{error}</Alert>}
         <DialogContent>
           <Box
             id='orders-wizard-window'
@@ -179,7 +214,9 @@ export default function OrdersWizardTRY(props) {
                   selectedOrder={props.selectedOrder}
                   handleEditOrder={handleEditOrder}
                   handleSelectCompany={handleSelectCompany}
-                  nameVerError={nameVerError}
+                  employeeNameValidation={employeeNameValidation}
+                  employeeIdValidation={employeeIdValidation}
+                  companyValidation={companyValidation}
                   handleStatusChange={handleStatusChange}
                   customerId={props.customerId}
                 />
@@ -199,7 +236,10 @@ export default function OrdersWizardTRY(props) {
                     justifyContent: 'center',
                   }}
                 >
-                  <AddPicture handleImgChange={handleImgChange} />
+                  <AddPicture
+                    isLoading={isLoading}
+                    handleImgChange={handleImgChange}
+                  />
                 </Box>
               </Box>
             </Box>
@@ -209,6 +249,7 @@ export default function OrdersWizardTRY(props) {
           <OrdersSubmit
             handleSaveChanges={handleSaveChanges}
             handleClose={handleClose}
+            isLoading={isLoading}
           />
         </Box>
       </Dialog>
