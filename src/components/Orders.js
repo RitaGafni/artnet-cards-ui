@@ -36,7 +36,7 @@ export default function Orders(props) {
       setReloadOrders(false);
     }
     fetchOrdersList();
-  }, [setOrdersData, reloadOrders, setReloadOrders]);
+  }, [setOrdersData, setReloadOrders]);
 
   function handleStatusChange(status) {
     setStatusFilter((prevStatusFilter) => {

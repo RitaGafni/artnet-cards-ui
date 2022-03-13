@@ -62,6 +62,9 @@ export default function CustomerWizard(props) {
       setPreviewLogo(defaultImage);
       setNewLogo(null);
       setIsLoading(false);
+      props.setIsCustumersUpdatd(true);
+      console.log('change to true');
+
       window.location.reload(false);
     } catch (error) {
       setIsLoading(false);
@@ -82,7 +85,8 @@ export default function CustomerWizard(props) {
       await updateCustomer(customer, logoURLToUpload);
       props.setOpenEdit(false);
       setIsLoading(false);
-
+      props.setIsCustumersUpdatd(true);
+      console.log('change to true');
       window.location.reload(false);
     } catch (error) {
       setIsLoading(false);
@@ -100,6 +104,8 @@ export default function CustomerWizard(props) {
       setDeleteVer(false);
       props.setOpenEdit(false);
       setIsLoading(false);
+      props.setIsCustumersUpdatd(true);
+      console.log('change to true');
       window.location.reload(false);
     } catch (error) {
       setIsLoading(false);

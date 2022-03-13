@@ -71,7 +71,7 @@ export default function OrdersWizardTRY(props) {
       setPreviewImg(defaultImg);
       setNewImg(null);
       props.setReloadOrders(true);
-      window.location.reload(false);
+      // window.location.reload(false);
     } catch (err) {
       setError(`couldn't create new customer`);
       console.log(err);

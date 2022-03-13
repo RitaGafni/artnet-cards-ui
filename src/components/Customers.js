@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import CustomersSearchBar from './CustomersSearchBar';
 import { Grid, Container, IconButton, Box } from '@mui/material';
 import CustomersWizard from './CustomersWizard';
@@ -14,13 +14,24 @@ function Customers(props) {
   const [selectedCustomer, setSelectedCustomer] = useState();
   const [editMode, setEditMode] = useState();
 
+  const [isCustumersUpdatd, setIsCustumersUpdatd] = useState(false);
+
   useEffect(() => {
     async function fetchCustomersList() {
       const data = await fetchCustomers();
       setCustomers(data);
     }
     fetchCustomersList();
-  }, [setCustomers]);
+  }, [setCustomers, setIsCustumersUpdatd]);
+
+  useMemo(async () => {
+    console.log('use mome');
+    const data = await fetchCustomers();
+    setCustomers(data);
+    setIsCustumersUpdatd(false);
+  }, [setIsCustumersUpdatd]);
+
+  console.log(isCustumersUpdatd);
 
   function filterCustomersData(rows) {
     if (rows[0]) {
@@ -81,6 +92,7 @@ function Customers(props) {
             setOpenEdit={(change) => setOpenEdit(change)}
             openEdit={openEdit}
             editMode={editMode}
+            setIsCustumersUpdatd={(change) => setIsCustumersUpdatd(change)}
           />
           <Container>
             <Box display='flex'>
