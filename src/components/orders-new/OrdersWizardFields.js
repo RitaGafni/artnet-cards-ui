@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import Autocomplete from '@mui/material/Autocomplete';
 import FormControl from '@mui/material/FormControl';
-import { fetchCompanies } from '../services/CustomerViewServices';
+import { fetchCompanies } from '../../services/CustomerViewServices';
 
 export default function OrderdFields(props) {
   const [companiesList, setCompaniesList] = useState();
@@ -16,7 +16,7 @@ export default function OrderdFields(props) {
       setCompaniesList(data);
     }
     fetchCompaniesList(props.customerId);
-  }, [setCompaniesList, props.customerId]);
+  }, [props.customerId, setCompaniesList]);
 
   return (
     <div>
@@ -90,7 +90,7 @@ export default function OrderdFields(props) {
               labelId='status'
               name='status'
               id='status-select'
-              value={props.order.status || ''}
+              value={props.order.status || 'new'}
               label='status'
               onChange={props.handleStatusChange}
             >

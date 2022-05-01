@@ -153,6 +153,10 @@ export default function OrdersTable(props) {
           pageSize={10}
           rowsPerPageOptions={[10]}
           className={classes.root}
+          onSelectionModelChange={(newSelectionModel) => {
+            props.setSelectedOrders(newSelectionModel);
+          }}
+          selectionModel={props.selectedOrder}
         />
       </Box>
     </div>

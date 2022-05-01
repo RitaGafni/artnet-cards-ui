@@ -4,9 +4,7 @@ export function filterData(
   isAdmin,
   statusFilter,
   customerId,
-  basicQ,
-  AdvQ,
-  AdvCat
+  basicQ
 ) {
   const id = parseInt(customerId);
   const newData = rows.filter(
@@ -18,21 +16,7 @@ export function filterData(
   );
   if (basicQ) {
     return search(newData, basicQ);
-  } else if (AdvQ[0] || AdvQ[1]) {
-    return advSearch(newData, AdvCat, AdvQ);
   } else return newData;
-}
-
-export function advSearch(rows, AdvCat, AdvQ) {
-  return rows.filter(
-    (row) =>
-      (![AdvQ[0]] ||
-        row[AdvCat[0]].toString().toLowerCase().indexOf(AdvQ[0].toLowerCase()) >
-          -1) &&
-      (!AdvQ[1] ||
-        row[AdvCat[1]].toString().toLowerCase().indexOf(AdvQ[1].toLowerCase()) >
-          -1)
-  );
 }
 
 export function search(rows, basicQ) {

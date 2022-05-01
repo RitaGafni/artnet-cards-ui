@@ -2295,5 +2295,33 @@
       "status": "new",
       "img": "https://firebasestorage.googleapis.com/v0/b/artnet-b5d7e.appspot.com/o/undefined.png?alt=media&token=62e7bd3b-90dc-4c8a-bb57-26cf75b1584d"
     }
+  ],
+  "templates": [
+    {
+      "company": 1,
+      "customer": 1,
+      "templateName": "zarieli towers",
+      "hasImage": false,
+      "fields": [
+        {
+          "fieldTitle": "שם העובד",
+          "fieldName": "employeeName",
+          "fieldType": "text"
+        }
+      ]
+    },
+    {
+      "company": 2,
+      "customer": 2,
+      "templateName": "rita towers",
+      "hasImage": true,
+      "fields": [
+        {
+          "fieldTitle": "שם העובד",
+          "fieldName": "employeeName",
+          "fieldType": "text"
+        }
+      ]
+    }
   ]
 }

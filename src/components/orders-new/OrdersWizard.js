@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import { storage } from '../firebase';
+import { storage } from '../../firebase';
 import { getDownloadURL, ref, uploadBytes } from '@firebase/storage';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
@@ -14,13 +14,13 @@ import {
   getURLOfImg,
   postOrder,
   updateOrder,
-} from '../controllers/OrdersController';
+} from '../../controllers/OrdersController';
 import OrderdFields from './OrdersWizardFields';
 import OrderPicture from './OrdersWizardPicture';
 import AddPicture from './OrdersWizardAddPicture';
 import OrdersSubmit from './OrdersWizardSubmit';
 
-export default function OrdersWizardTRY(props) {
+export default function OrdersWizard(props) {
   const defaultImg = '';
   const [employeeNameValidation, setEmployeeNameValidation] = useState('');
   const [employeeIdValidation, setEmployeeIdValidation] = useState('');
@@ -134,26 +134,24 @@ export default function OrdersWizardTRY(props) {
   };
 
   const isOrderValid = () => {
-    let isValid = 0;
+    let isValid = true;
     if (order.employeeName === '') {
       setEmployeeNameValidation('Name Cannot be blank');
-      isValid++;
+      isValid = false;
     }
     if (isNaN(+order.TZ)) {
       setEmployeeIdValidation('Employee ID must be a number');
-      isValid++;
+      isValid = false;
     }
     if (order.company === '') {
       setCompanyValidation('Company Cannot be blank');
-      isValid++;
+      isValid = false;
     }
     if (order.TZ === '') {
       setEmployeeIdValidation('Employee ID Cannot be blank');
-      isValid++;
+      isValid = false;
     }
-    if (isValid) {
-      return false;
-    } else return true;
+    return isValid;
   };
 
   const handleClose = () => {

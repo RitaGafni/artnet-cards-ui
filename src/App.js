@@ -1,4 +1,4 @@
-import Customers from './components/Customers';
+import Customers from './components/customers/Customers';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LoginForm from './components/LoginForm';
@@ -7,16 +7,20 @@ import { AuthProvider } from './context/AuthContext';
 import Dashboard from './components/Dashboard';
 import ForgotPassword from './components/ForgotPassword';
 import PrivetRoute from './components/PrivetRoute';
-import Orders from './components/Orders';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+// import Orders from './components/orders/Orders';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+import Template from './components/templates/Template';
+import Orders from './components/orders-new/Orders';
 // import { useAuth } from './context/AuthContext';
 
 const theme = createTheme({
   typography: {
-    fontFamily: 'Raleway, Arial',
+    fontFamily: 'segoe UI, Arial',
   },
   palette: {
-    primary: { main: '#64C9CF' },
+    primary: { main: '#649B92' },
+    secondary: { main: '#FFCB05' },
   },
 });
 
@@ -32,9 +36,12 @@ function App() {
               <Route path='/signup' component={SignupForm} />
               <Route path='/forgot-password' component={ForgotPassword} />
               <Route path='/customers' component={Customers} />
-              <Route path='/orders'>
+              <Route path='/template' component={Template} />
+              <Route path='/orders' component={Orders} />
+
+              {/* <Route path='/orders'>
                 <Orders isAdmin={true} />
-              </Route>
+              </Route> */}
             </Switch>
           </div>
         </AuthProvider>

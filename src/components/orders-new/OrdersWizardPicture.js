@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'mui-image';
-import defaultImg from '../images/defaultImg.jpg';
+import defaultImg from '../../images/defaultImg.jpg';
 
 export default function OrderPicture(props) {
   return (

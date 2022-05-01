@@ -4,10 +4,10 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Orders from './Orders';
-import Companies from './Companies';
-import Users from './Users';
-import NavBar from './NavBar';
+import Orders from '../orders-new/Orders';
+import Companies from '../compenies/Companies';
+import Users from '../Users';
+import NavBar from '../NavBar';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -16,8 +16,8 @@ function TabPanel(props) {
     <div
       role='tabpanel'
       hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
+      id={`customers-tabpanel-${index}`}
+      aria-labelledby={`customers-tab-${index}`}
       {...other}
     >
       {value === index && (
@@ -37,8 +37,8 @@ TabPanel.propTypes = {
 
 function a11yProps(index) {
   return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    id: `customers-tab-${index}`,
+    'aria-controls': `customers-tabpanel-${index}`,
   };
 }
 
@@ -56,7 +56,6 @@ export default function CustomerView(props) {
           width: '100%',
           maxWidth: 1200,
           mt: 4,
-          bgcolor: '#F4F9F9',
           borderRadius: 4,
           p: 2,
         }}
@@ -65,13 +64,16 @@ export default function CustomerView(props) {
           <Tabs
             value={value}
             onChange={handleChange}
-            aria-label='basic tabs example'
-            centered
+            aria-label='customers tabs'
+            // centered
           >
             <Tab
+              className='tab'
               label='Orders'
               {...a11yProps(0)}
               sx={{
+                mr: '1rem',
+                ml: '2rem',
                 ':hover': {
                   bgcolor: 'primary.main',
                   color: 'white',
@@ -81,9 +83,11 @@ export default function CustomerView(props) {
               }}
             />
             <Tab
+              className='tab'
               label='Companies'
               {...a11yProps(1)}
               sx={{
+                mr: '1rem',
                 ':hover': {
                   bgcolor: 'primary.main',
                   color: 'white',
@@ -93,9 +97,11 @@ export default function CustomerView(props) {
               }}
             />
             <Tab
+              className='tab'
               label='Users'
               {...a11yProps(2)}
               sx={{
+                mr: '1rem',
                 ':hover': {
                   bgcolor: 'primary.main',
                   color: 'white',

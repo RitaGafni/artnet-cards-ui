@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import CustomerView from './CustomerView';
+import CustomerView from './customers/CustomerView';
 
 export default function Dashboard() {
   const [customerId, setCustomerId] = useState(null);

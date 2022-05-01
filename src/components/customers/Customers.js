@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import CustomersSearchBar from './CustomersSearchBar';
-import { Grid, Container, IconButton, Box } from '@mui/material';
 import CustomersWizard from './CustomersWizard';
 import CustomerItem from './CustomerItem';
+import NavBar from '../NavBar';
+import { Grid, Container, IconButton, Box } from '@mui/material';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
-import { fetchCustomers } from '../services/CustomerViewServices';
-import NavBar from './NavBar';
+import { fetchCustomers } from '../../services/CustomerViewServices';
+import { filterCustomersData } from '../../models/CustomersModel';
 
 function Customers(props) {
   const [openEdit, setOpenEdit] = useState(false);
@@ -27,18 +28,18 @@ function Customers(props) {
     }
   }, [isCustumersUpdatd, setCustomers]);
 
-  function filterCustomersData(rows) {
-    if (rows[0]) {
-      const newData = rows.filter(
-        (row) =>
-          row.customer_name
-            .toString()
-            .toLowerCase()
-            .indexOf(searchQ.toLowerCase()) > -1
-      );
-      return newData;
-    }
-  }
+  // function filterCustomersData(rows) {
+  //   if (rows[0]) {
+  //     const newData = rows.filter(
+  //       (row) =>
+  //         row.customer_name
+  //           .toString()
+  //           .toLowerCase()
+  //           .indexOf(searchQ.toLowerCase()) > -1
+  //     );
+  //     return newData;
+  //   }
+  // }
 
   function handleEdit(customer) {
     setEditMode(true);
@@ -107,14 +108,20 @@ function Customers(props) {
             <Grid container spacing={3}>
               {customers &&
                 customers[0] &&
-                filterCustomersData(customers).map((selectedCustomer) => (
-                  <Grid key={selectedCustomer.id} item id={selectedCustomer.id}>
-                    <CustomerItem
-                      selectedCustomer={selectedCustomer}
-                      handleEdit={(customer) => handleEdit(customer)}
-                    />
-                  </Grid>
-                ))}
+                filterCustomersData(customers, searchQ).map(
+                  (selectedCustomer) => (
+                    <Grid
+                      key={selectedCustomer.id}
+                      item
+                      id={selectedCustomer.id}
+                    >
+                      <CustomerItem
+                        selectedCustomer={selectedCustomer}
+                        handleEdit={(customer) => handleEdit(customer)}
+                      />
+                    </Grid>
+                  )
+                )}
             </Grid>
           </Container>
         </Box>

@@ -1,0 +1,66 @@
+.orders {
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f9f9;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.primary-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.filter {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.status {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: flex-start;
+  margin-right: 3rem;
+}
+
+.status-text {
+  text-align: left;
+  border-bottom: 1px solid #006b61;
+  color: 'primary';
+  width: 95%;
+  margin-bottom: -0.4rem;
+}
+
+.date-picker-text {
+  text-align: left;
+  color: 'primary';
+}
+
+.add-button {
+  margin-right: 2rem;
+}
+
+.search {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+}
+
+.select-and-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}

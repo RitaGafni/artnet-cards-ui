@@ -4,16 +4,8 @@ import { FormControl, Tab, Tabs, InputGroup } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../searchRedux';
-import {
-  Container,
-  TextField,
-  Box,
-  Button,
-  Stack,
-  Grid,
-  Fab,
-} from '@mui/material';
+import { actionCreators } from '../../searchRedux';
+import { TextField, Box, Fab } from '@mui/material';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 
 import Grow from '@mui/material/Grow';

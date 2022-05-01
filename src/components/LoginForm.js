@@ -38,7 +38,7 @@ export default function Login() {
   return (
     <div>
       <Container component='main' maxWidth='xs'>
-        <Paper elevation='4' sx={{ marginTop: 6, p: 2 }}>
+        <Paper elevation={4} sx={{ marginTop: 6, p: 2 }}>
           <CssBaseline />
           <Box
             sx={{

@@ -11,6 +11,8 @@ import {
   Typography,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import BadgeIcon from '@mui/icons-material/Badge';
+import Tooltip from '@mui/material/Tooltip';
 import { makeStyles } from '@mui/styles';
 import { useHistory } from 'react-router-dom';
 
@@ -44,16 +46,19 @@ export default function CustomerItem(props) {
       >
         <Paper sx={{ width: 200 }}>
           <Card asbutton='true'>
-            <Stack direction='row' alignItems='left' spacing={2}>
+            <Stack direction='row' alignItems='left'>
               <Typography variant='h7' component='div'>
-                <IconButton
-                  color='primary'
-                  aria-label='edit customer'
-                  component='span'
-                  onClick={() => props.handleEdit(props.selectedCustomer)}
-                >
-                  <EditIcon />
-                </IconButton>
+                <Tooltip title='Edit' placement='top' arrow>
+                  <IconButton
+                    color='primary'
+                    aria-label='edit customer'
+                    component='span'
+                    onClick={() => props.handleEdit(props.selectedCustomer)}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                </Tooltip>
+
                 {props.selectedCustomer.customer_name}
               </Typography>
             </Stack>

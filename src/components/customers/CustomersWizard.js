@@ -11,13 +11,15 @@ import Image from 'mui-image';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { styled } from '@mui/material/styles';
-import defaultImage from '../images/defaultImg.jpg';
+import defaultImage from '../../images/defaultImg.jpg';
 import {
   deleteCustomer,
   getURLOfLogo,
   PostNewCustomer,
   updateCustomer,
-} from '../controllers/CustomerController';
+} from '../../controllers/CustomerController';
+import BadgeIcon from '@mui/icons-material/Badge';
+import Tooltip from '@mui/material/Tooltip';
 
 const Input = styled('input')({
   display: 'none',
@@ -219,15 +221,27 @@ export default function CustomerWizard(props) {
                       type='file'
                       onChange={handleLogoChange}
                     />
+                    <Tooltip title='Upload logo' placement='top' arrow>
+                      <IconButton
+                        color='primary'
+                        aria-label='upload picture'
+                        component='span'
+                        disabled={isLoading}
+                      >
+                        <PhotoCamera />
+                      </IconButton>
+                    </Tooltip>
+                  </label>
+                  <Tooltip title='Template' placement='top' arrow>
                     <IconButton
                       color='primary'
-                      aria-label='upload picture'
+                      aria-label='customer template'
                       component='span'
-                      disabled={isLoading}
+                      onClick={() => console.log('template')}
                     >
-                      <PhotoCamera />
+                      <BadgeIcon />
                     </IconButton>
-                  </label>
+                  </Tooltip>
                 </Box>
               </Box>
             </DialogContent>

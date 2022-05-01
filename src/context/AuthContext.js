@@ -17,7 +17,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [currentUserRole, setCurrentUserRole] = useState('');
+  const [currentUserRole, setCurrentUserRole] = useState(null);
 
   function signup(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -25,7 +25,7 @@ export function AuthProvider({ children }) {
 
   async function login(email, password) {
     const loginRes = await signInWithEmailAndPassword(auth, email, password);
-    // setCurrentUserRole(fetchUserRole(email));
+    setCurrentUserRole('admin');
     return loginRes;
   }
 

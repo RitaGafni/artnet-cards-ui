@@ -2,4 +2,23 @@
   text-align: center;
   height: 100%;
   width: 100%;
+  background-color: #f4f9f9;
+}
+
+.basic-search {
+  width: 20rem;
+  margin-bottom: 1rem;
+}
+
+.companies {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.select-and-add {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
 }
